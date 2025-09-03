@@ -1,0 +1,23 @@
+.room-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  width: 60%; /* 横幅を画面の60%に固定 */
+}
+
+.tab {
+  flex: 1; /* 均等配置 */
+  padding: 10px 0;
+  font-size: 14px;
+  text-align: center;
+  border-radius: 16px;
+  border: none;
+  background: #f0f0f0;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.tab.active {
+  background: #007bff;
+  color: white;
+}

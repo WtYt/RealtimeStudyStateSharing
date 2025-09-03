@@ -1,13 +1,8 @@
-import './App.css'
+import './App.css';
+import Screen from './pages/Screen';
 
 function App() {
-  return (
-    <>
-      <div>
-        Hello World
-      </div>
-    </>
-  )
+  return <Screen></Screen>;
 }
 
-export default App
+export default App;
