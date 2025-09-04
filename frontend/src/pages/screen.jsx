@@ -1,6 +1,6 @@
 import React from 'react';
 import RoomInfoButton from '../components/RoomInfoButton';
-import ProfileButton from '../components/ProfileButton';
+import ProfileButton from '../components/profileButton/ProfileButton';
 import SignOutButton from '../components/SignOutButton';
 import SearchButton from '../components/searchbutton/SearchButton';
 import FavoriteRoomTab from '../components/FavoriteRoomTab';
