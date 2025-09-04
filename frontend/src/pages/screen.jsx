@@ -3,6 +3,7 @@ import RoomInfoButton from '../components/RoomInfoButton';
 import ProfileButton from '../components/profileButton/ProfileButton';
 import SignOutButton from '../components/SignOutButton';
 import SearchButton from '../components/searchbutton/SearchButton';
+import CreateRoomButton from '../components/createRoomButton/CreateRoomButton';
 import FavoriteRoomTab from '../components/FavoriteRoomTab';
 import './Screen.css';
 
@@ -19,7 +20,19 @@ const Screen = () => {
       <main className="main-content">
         <p>ここにルームのメインコンテンツが表示されます。</p>
       </main>
-      <SearchButton />
+      <div
+        style={{
+          position: 'fixed',
+          right: 80,
+          bottom: 96,
+          zIndex: 101,
+          display: 'flex',
+          gap: 12,
+        }}
+      >
+        <CreateRoomButton />
+        <SearchButton />
+      </div>
       <footer className="footer">
         <FavoriteRoomTab />
       </footer>
