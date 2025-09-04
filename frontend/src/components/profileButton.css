@@ -1,0 +1,19 @@
+.profile-button-wrapper {
+  position: relative; /* 親を基準にポップアップを配置 */
+  display: inline-block;
+}
+
+.profile-btn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #333;
+}
+
+/* ポップアップをプロフィールアイコンの真下に表示 */
+.profile-popup-wrapper {
+  position: absolute;
+  top: 40px; /* アイコンの下に配置 */
+  right: 0;
+  z-index: 200;
+}
