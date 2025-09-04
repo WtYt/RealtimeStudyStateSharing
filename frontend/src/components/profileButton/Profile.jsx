@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import EachProfileEditPopup from './EachProfileEditPopup';
-import FavoriteRoomPopup from './FavoriteRoomPopup';
-import DeletePopup from './DeletePopup';
+import EachProfileEditPopup from '../../pages/EachProfileEditPopup';
+import FavoriteRoomPopup from '../../pages/FavoriteRoomPopup';
+import ConfirmPopup from '../ConfirmPopup';
 import './Profile.css';
 
 const Profile = () => {
@@ -28,7 +28,7 @@ const Profile = () => {
   };
 
   return (
-    <div className="profile-container">
+    <div>
       <h2 className="profile-name">名前：山田太郎</h2>
       <p>ID：12345</p>
 
@@ -91,10 +91,12 @@ const Profile = () => {
         )}
       {/* アカウント削除確認 */}
       {popupContent === 'アカウント削除' && (
-        <DeletePopup
-          onClose={closePopup}
-          onDelete={handleAccountDelete}
+        <ConfirmPopup
           message="本当にアカウントを削除しますか？"
+          onClose={closePopup}
+          onConfirm={handleAccountDelete}
+          confirmText="削除"
+          confirmType="danger"
         />
       )}
     </div>

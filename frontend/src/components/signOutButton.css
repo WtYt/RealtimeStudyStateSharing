@@ -3,5 +3,10 @@
   border: none;
   cursor: pointer;
   color: #333;
-  margin-left: 12px;
+  top: 16px;
+  right: 16px;
+}
+
+.signout-btn:hover {
+  color: #007bff;
 }

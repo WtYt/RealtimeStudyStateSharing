@@ -60,3 +60,27 @@
 .save-btn:hover {
   background: #0056b3;
 }
+
+.confirm-btn {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: white;
+}
+
+.confirm-btn.primary {
+  background: #007bff; /* サインアウト用 */
+}
+
+.confirm-btn.primary:hover {
+  background: #0056b3;
+}
+
+.confirm-btn.danger {
+  background: #dc3545; /* 削除用 */
+}
+
+.confirm-btn.danger:hover {
+  background: #a71d2a;
+}
