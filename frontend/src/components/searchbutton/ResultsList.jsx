@@ -1,7 +1,11 @@
 import React from 'react';
-import { Box, Stack, Typography, Chip, List, ListItem, ListItemText, CircularProgress } from '@mui/material';
+import { Box, Stack, Typography, Chip, List, ListItem, ListItemText, CircularProgress, Link } from '@mui/material';
 
-export default function ResultsList({ loading, error, results }) {
+/**
+ * results: Array<{ id: string, name: string, category?: string, memberCount?: number }>
+ * onRoomClick?: (room) => void
+ */
+export default function ResultsList({ loading, error, results, onRoomClick }) {
     return (
         <Box sx={{ mt: 2 }}>
             <Typography variant="subtitle1" sx={{ mb: 1 }}>検索結果</Typography>
@@ -23,26 +27,43 @@ export default function ResultsList({ loading, error, results }) {
 
             {!loading && !error && results?.length > 0 && (
                 <List dense sx={{ maxHeight: 260, overflow: 'auto', border: '1px solid', borderColor: 'divider', borderRadius: 1 }}>
-                    {results.map((r) => (
-                        <ListItem key={r.id} divider>
-                            <ListItemText
-                                primary={r.name ?? r.id}
-                                secondary={
-                                    <Stack direction="row" alignItems="center" spacing={1} flexWrap="wrap">
-                                        <Typography variant="caption" color="text.secondary">
-                                            参加人数: {r.memberCount ?? 0}
-                                        </Typography>
-                                        <span style={{ width: 1, height: 12, background: 'rgba(0,0,0,0.12)' }} />
-                                        <Stack direction="row" spacing={0.5} sx={{ mt: 0.25 }}>
-                                            {(r.categories ?? []).map((c) => (
-                                                <Chip key={c} size="small" label={c} />
-                                            ))}
+                    {results.map((r) => {
+                        const category = r.category || '';
+                        const members = r.memberCount ?? 0;
+
+                        return (
+                            <ListItem key={r.id} divider>
+                                <ListItemText
+                                    primary={
+                                        // ルーム名はクリック可能（拡張ポイント：join機能をここに接続）
+                                        <Link
+                                            component="button"
+                                            type="button"
+                                            variant="body1"
+                                            underline="hover"
+                                            onClick={() => onRoomClick?.(r)}
+                                            sx={{ textAlign: 'left', padding: 0 }}
+                                        >
+                                            {r.name ?? r.id}
+                                        </Link>
+                                    }
+                                    secondary={
+                                        <Stack direction="row" alignItems="center" spacing={1} flexWrap="wrap">
+                                            <Typography variant="caption" color="text.secondary">
+                                                参加人数: {members}
+                                            </Typography>
+                                            {category && (
+                                                <>
+                                                    <span style={{ width: 1, height: 12, background: 'rgba(0,0,0,0.12)' }} />
+                                                    <Chip size="small" label={category} />
+                                                </>
+                                            )}
                                         </Stack>
-                                    </Stack>
-                                }
-                            />
-                        </ListItem>
-                    ))}
+                                    }
+                                />
+                            </ListItem>
+                        );
+                    })}
                 </List>
             )}
         </Box>

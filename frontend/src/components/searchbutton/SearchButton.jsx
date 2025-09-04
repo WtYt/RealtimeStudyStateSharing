@@ -1,28 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { MdOutlineSearch } from 'react-icons/md';
-import SearchModal from './SearchModal';
+import { useSearchPopup } from '../../pages/searchPopup';
 import './SearchButton.css';
 
-export default function SearchButton({ categories = [] }) {
-  const [open, setOpen] = useState(false);
+export default function SearchButton() {
+  const { open } = useSearchPopup();
 
   return (
-    <>
-      <div
-        className="search-btn"
-        onClick={() => setOpen(true)}
-        role="button" 
-        tabIndex={0}
-        aria-label="検索を開く"
-      >
-        <MdOutlineSearch size="40px" style={{ cursor: 'pointer'}} />
-      </div>
-
-      <SearchModal
-        open={open}
-        onClose={() => setOpen(false)}
-        categories={categories}
-      />
-    </>
+    <button
+      className="search-btn"
+      onClick={open}
+      aria-label="検索を開く"
+    >
+      <MdOutlineSearch size="24px" />
+    </button>
   );
 }

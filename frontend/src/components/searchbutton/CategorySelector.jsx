@@ -1,37 +1,34 @@
 import React from 'react';
-import { Box, Typography, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
+import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
-export default function CategorySelector({ categories = [], checked, setChecked }) {
-    const toggle = (key) => {
-        setChecked(prev => {
-            const next = new Set(prev);
-            if (next.has(key)) next.delete(key); else next.add(key);
-            return next;
-        });
-    };
-
+/**
+ * props:
+ * - categories: Array<{ key: string, label: string }>
+ * - value: string            // 選択中の key
+ * - onChange: (key: string) => void
+ * - label?: string
+ */
+export default function CategorySelector({
+    categories = [],
+    value = '',
+    onChange,
+    label = 'カテゴリ',
+}) {
     return (
-        <>
-            <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-                既存カテゴリから複数選択（OR検索）
-            </Typography>
-            <Box sx={{ border: '1px solid', borderColor: 'divider', borderRadius: 1, p: 1, maxHeight: 180, overflow: 'auto' }}>
-                {categories.length === 0 ? (
-                    <Typography variant="body2" color="text.secondary">
-                        カテゴリが設定されていません
-                    </Typography>
-                ) : (
-                    <FormGroup>
-                        {categories.map(({ key, label }) => (
-                            <FormControlLabel
-                                key={key}
-                                control={<Checkbox checked={checked.has(key)} onChange={() => toggle(key)} />}
-                                label={label}
-                            />
-                        ))}
-                    </FormGroup>
-                )}
-            </Box>
-        </>
+        <FormControl fullWidth>
+            <InputLabel id="category-select-label">{label}</InputLabel>
+            <Select
+                labelId="category-select-label"
+                label={label}
+                value={value}
+                onChange={(e) => onChange?.(e.target.value)}
+            >
+                {categories.map(({ key, label }) => (
+                    <MenuItem key={key} value={key}>
+                        {label}
+                    </MenuItem>
+                ))}
+            </Select>
+        </FormControl>
     );
 }

@@ -4,6 +4,7 @@ import ProfileButton from '../components/profileButton/ProfileButton';
 import SignOutButton from '../components/SignOutButton';
 import SearchButton from '../components/searchbutton/SearchButton';
 import FavoriteRoomTab from '../components/FavoriteRoomTab';
+import SearchPopupProvider from './searchPopup';
 import './Screen.css';
 
 const Screen = () => {
@@ -19,7 +20,11 @@ const Screen = () => {
       <main className="main-content">
         <p>ここにルームのメインコンテンツが表示されます。</p>
       </main>
-      <SearchButton />
+      <SearchPopupProvider>
+        {/* API連携ができたら、onSearchByName/onSearchByCategory/onRoomClickを渡す
+        categoriesもAPIから取得したものを渡す */}
+        <SearchButton />
+      </SearchPopupProvider>
       <footer className="footer">
         <FavoriteRoomTab />
       </footer>
