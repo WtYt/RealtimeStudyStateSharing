@@ -24,7 +24,7 @@ def create_record(data):
 
     try:
         # 指定されたコレクションに新しいドキュメントを追加
-        update_time, doc_ref = db.collection(collection_name).add(data)
+        update_time, doc_ref = db.collection(collection_name).add(data.pop('data', None))
         response_data = {"status": "success", "message": f"Record created with ID: {doc_ref.id}", "id": doc_ref.id}
         return response_data, 201
     except Exception as e:
@@ -79,7 +79,7 @@ def update_record(data):
 
     try:
         doc_ref = db.collection(collection_name).document(doc_id)
-        doc_ref.update(data)
+        doc_ref.update(data.pop('data', None))
         response_data = {"status": "success", "message": f"Document {doc_id} updated"}
         return response_data, 200
     except Exception as e:
