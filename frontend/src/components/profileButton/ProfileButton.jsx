@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { MdAccountCircle } from 'react-icons/md';
 import ProfileModal from './ProfileModal';
+import Portal from '../Portal';
 import './ProfileButton.css';
 
 const ProfileButton = () => {
@@ -11,7 +12,7 @@ const ProfileButton = () => {
       <button className="profile-btn" onClick={() => setIsOpen(true)}>
         <MdAccountCircle size={32} />
       </button>
-      {isOpen && <ProfileModal onClose={() => setIsOpen(false)} />}
+      {isOpen && <Portal><ProfileModal onClose={() => setIsOpen(false)} /></Portal>}
     </div>
   );
 };

@@ -1,0 +1,120 @@
+/* 机の板（下地）＋ノート（上） */
+.desk-card {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    /* 机が横に広い見た目 */
+    border-radius: 12px;
+    background: linear-gradient(#f1dec2, #e4c59a);
+    /* 木目調ベース */
+    box-shadow: 0 4px 14px rgba(0, 0, 0, .15);
+    border: 2px solid #a7773b;
+    overflow: hidden;
+    display: grid;
+    place-items: center;
+}
+
+.desk-surface {
+    position: absolute;
+    inset: 0;
+    background:
+        repeating-linear-gradient(0deg, rgba(0, 0, 0, .02) 0 2px, transparent 2px 6px),
+        linear-gradient(#f1dec2, #e4c59a);
+    opacity: .9;
+}
+
+/* ノート  */
+.campus-note {
+    position: relative;
+    width: 88%;
+    height: 78%;
+    border-radius: 10px;
+    box-shadow:
+        0 1px 0 rgba(0, 0, 0, .08) inset,
+        0 8px 18px rgba(0, 0, 0, .12);
+    display: grid;
+    grid-template-columns: min(12%, 36px) 1fr;
+    /* 左の背表紙帯 + 本体 */
+    overflow: hidden;
+    border: 1px solid rgba(0, 0, 0, .06);
+    background: #fff;
+}
+
+/* 左の背表紙帯 */
+.campus-spine {
+    height: 100%;
+}
+
+/* 本体 */
+.campus-body {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+}
+
+/* ヘッダー（タイトル＝ユーザー名／ステータス） */
+.campus-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: clamp(6px, 0.9vw, 10px) clamp(8px, 1vw, 12px);
+    border-bottom: 1px solid rgba(0, 0, 0, .06);
+}
+
+.campus-title {
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, 'Helvetica Neue', Arial, 'Noto Sans JP', sans-serif;
+    font-weight: 800;
+    letter-spacing: .02em;
+    font-size: clamp(14px, 1.6vw, 18px);
+    text-transform: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.campus-status {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    font-size: clamp(10px, 1vw, 13px);
+    color: #333;
+}
+
+.campus-status .dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+}
+
+/* 横罫（薄いライン） */
+.campus-rules {
+    position: relative;
+    padding: clamp(6px, 1vw, 10px) clamp(10px, 1.2vw, 14px);
+    display: grid;
+    gap: clamp(6px, 1vw, 10px);
+    min-height: 0;
+}
+
+.rule-line {
+    border-bottom: 1px solid;
+    opacity: .7;
+}
+
+/* 横罫中央に勉強内容を配置（中央揃え） */
+.campus-subject {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 92%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    font-weight: 700;
+    color: #333;
+    font-size: clamp(12px, 1.2vw, 16px);
+    line-height: 1.35;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0 4px;
+    backdrop-filter: blur(0.4px);
+    /* 細い罫線の上でも視認性UP（対応ブラウザのみ） */
+}
