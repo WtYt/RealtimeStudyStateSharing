@@ -14,7 +14,7 @@ const SignOutButton = () => {
   return (
     <>
       <button className="signout-btn" onClick={() => setShowPopup(true)}>
-        <PiSignOutBold size={28} />
+        <PiSignOutBold size={60} />
       </button>
       {showPopup && (
         <ConfirmPopup

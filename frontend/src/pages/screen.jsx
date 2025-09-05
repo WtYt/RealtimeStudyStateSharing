@@ -13,11 +13,16 @@ const Screen = () => {
     <div className="screen-container">
       <header className="header">
         {/* RoomInfoButton に room を渡すことでモーダル内に詳細を表示する。以下はサンプル。 */}
-        <RoomInfoButton room={{
-          name: 'TOEIC',
-          category: '英語',
-          members: [{ id: 'u1', name: 'Alice' }, { id: 'u2', name: 'Bob' }],
-        }} />
+        <RoomInfoButton
+          room={{
+            name: 'TOEIC',
+            category: '英語',
+            members: [
+              { id: 'u1', name: 'Alice' },
+              { id: 'u2', name: 'Bob' },
+            ],
+          }}
+        />
         <div className="header-right">
           <ProfileButton />
           <SignOutButton />
@@ -26,20 +31,27 @@ const Screen = () => {
       <main className="main-content">
         <p>ここにルームのメインコンテンツが表示されます。</p>
       </main>
+      {/* 左下：ルーム作成ボタン */}
       <div
         style={{
           position: 'fixed',
-          right: 80,
-          bottom: 96,
+          left: 24,
+          bottom: 105,
           zIndex: 101,
-          display: 'flex',
-          gap: 12,
         }}
       >
         <CreateRoomButton />
+      </div>
+      {/* 右下：検索ボタン */}
+      <div
+        style={{
+          position: 'fixed',
+          right: 24,
+          bottom: 96,
+          zIndex: 101,
+        }}
+      >
         <SearchPopupProvider>
-          {/* API連携ができたら、onSearchByName/onSearchByCategory/onRoomClickを渡す
-        categoriesもAPIから取得したものを渡す */}
           <SearchButton />
         </SearchPopupProvider>
       </div>

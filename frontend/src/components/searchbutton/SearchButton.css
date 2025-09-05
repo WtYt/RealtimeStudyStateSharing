@@ -1,23 +1,12 @@
 .search-btn {
-  position: fixed;
-  right: 16px;
-  bottom: 96px; /* フッター高さに応じて調整 */
-  width: 56px;
-  height: 56px;
-  border-radius: 50%;
-  background: #f0f0f0;          /* うっすら灰色 */
-  color: #333;                  /* アイコンの色 */
+  background: transparent;
   border: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   cursor: pointer;
-  transition: background 0.3s, color 0.3s;
-  z-index: 100; /* フッターより前面 */
+  color: #333;
+  top: 16px;
+  right: 16px;
 }
-
 .search-btn:hover {
-  background: #007bff;          /* ホバー時に青色 */
-  color: white;                 /* アイコンを白に */
+  background: #eaf2ff;
+  box-shadow: 0 4px 16px rgba(79, 140, 255, 0.15);
 }

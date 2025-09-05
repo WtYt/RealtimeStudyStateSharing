@@ -15,10 +15,7 @@ import RoomInfoContent from '../pages/roomInfo'; // モーダル中身を分離�
 const RoomInfoButton = ({ room = {} }) => {
   const [open, setOpen] = useState(false);
 
-  const {
-    name = '未設定',
-    members = [],
-  } = room;
+  const { name = '未設定', members = [] } = room;
 
   // 単一カテゴリ（参照のみ）
   const category = room.category || '';
@@ -29,7 +26,9 @@ const RoomInfoButton = ({ room = {} }) => {
     content: {
       inset: '50% auto auto 50%',
       transform: 'translate(-50%, -50%)',
-      padding: 0, border: 'none', background: 'transparent',
+      padding: 0,
+      border: 'none',
+      background: 'transparent',
     },
   };
 
@@ -37,7 +36,7 @@ const RoomInfoButton = ({ room = {} }) => {
     <>
       <MdMeetingRoom
         className="room-info-btn"
-        size="40px"
+        size={60}
         style={{ color: 'inherit', cursor: 'pointer' }}
         onClick={() => setOpen(true)}
         aria-label="ルーム情報を開く"
@@ -61,7 +60,8 @@ const RoomInfoButton = ({ room = {} }) => {
 
 export default RoomInfoButton;
 
-{/*import React, { useState } from 'react';
+{
+  /*import React, { useState } from 'react';
 import Modal from 'react-modal';
 import './RoomInfoButton.css';
 import { MdMeetingRoom } from 'react-icons/md';
@@ -183,4 +183,5 @@ export default RoomInfoButton;
     category: '英語',              // 単一カテゴリ
     members: [{ id: 'u1', name: 'Alice' }, { id: 'u2', name: 'Bob' }],
   }}
-/>*/}
+/>*/
+}

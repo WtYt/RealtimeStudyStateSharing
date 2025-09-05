@@ -9,7 +9,7 @@ const ProfileButton = () => {
   return (
     <div className="profile-button-wrapper">
       <button className="profile-btn" onClick={() => setIsOpen(true)}>
-        <MdAccountCircle size={32} />
+        <MdAccountCircle size={60} />
       </button>
       {isOpen && <ProfileModal onClose={() => setIsOpen(false)} />}
     </div>
