@@ -2,15 +2,13 @@ import React, { useState } from 'react';
 import Modal from 'react-modal';
 import './RoomInfoButton.css';
 import { MdMeetingRoom } from 'react-icons/md';
-import {
-  Box, Stack, Typography, Divider, Chip, List, ListItem, ListItemText, Avatar, Button,
-} from '@mui/material';
+import RoomInfoContent from '../pages/roomInfo'; // モーダル中身を分離して再利用
 
 /**
  * props:
  * - room: {
  *     name?: string,
- *     category?: string,            // ← 単一カテゴリ（新仕様）
+ *     category?: string,
  *     members?: Array<{ id?: string, name?: string }>
  *   }
  */
@@ -22,11 +20,10 @@ const RoomInfoButton = ({ room = {} }) => {
     members = [],
   } = room;
 
-  // 単一カテゴリに正規化（旧: categories[] の先頭を利用）
-  const category =
-    room.category ??
-    (Array.isArray(room.categories) && room.categories.length > 0 ? room.categories[0] : null);
+  // 単一カテゴリ（参照のみ）
+  const category = room.category || '';
 
+  // react-modal のスタイル（既存に合わせる）
   const modalStyles = {
     overlay: { backgroundColor: 'rgba(0,0,0,0.45)', zIndex: 1300 },
     content: {
@@ -55,19 +52,84 @@ const RoomInfoButton = ({ room = {} }) => {
         style={modalStyles}
         contentLabel="ルーム情報"
       >
+        {/* 分離した RoomInfoContent を利用（onClose を渡す） */}
+        <RoomInfoContent room={room} onClose={() => setOpen(false)} />
+      </Modal>
+    </>
+  );
+};
+
+export default RoomInfoButton;
+
+{/*import React, { useState } from 'react';
+import Modal from 'react-modal';
+import './RoomInfoButton.css';
+import { MdMeetingRoom } from 'react-icons/md';
+import {
+  Box, Stack, Typography, Divider, Chip, List, ListItem, ListItemText, Avatar, Button,
+} from '@mui/material';
+
+/**
+ * props:
+ * - room: {
+ *     name?: string,
+ *     category?: string,            // ← 単一カテゴリ
+ *     members?: Array<{ id?: string, name?: string }>
+ *   }
+
+const RoomInfoButton = ({ room = {} }) => {
+  const [open, setOpen] = useState(false);
+
+  const {
+    name = '未設定',
+    members = [],
+  } = room;
+
+  // 単一カテゴリ
+  const category = room.category || '';
+
+  // モーダルのスタイル
+  const modalStyles = {
+    overlay: { backgroundColor: 'rgba(0,0,0,0.45)', zIndex: 1300 },
+    content: {
+      inset: '50% auto auto 50%',
+      transform: 'translate(-50%, -50%)',
+      padding: 0, border: 'none', background: 'transparent',
+    },
+  };
+
+  return (
+    <>
+      <MdMeetingRoom
+        className="room-info-btn"
+        size="40px"
+        style={{ color: 'inherit', cursor: 'pointer' }}
+        onClick={() => setOpen(true)}
+        aria-label="ルーム情報を開く"
+        role="button"
+      />
+
+      <Modal
+        isOpen={open}
+        onRequestClose={() => setOpen(false)}
+        shouldCloseOnOverlayClick // モーダル外クリックで閉じる
+        shouldCloseOnEsc // ESCキーで閉じる
+        style={modalStyles}
+        contentLabel="ルーム情報"
+      >
         <Box sx={{ width: 480, bgcolor: 'background.paper', borderRadius: 2, boxShadow: 10, p: 2.5 }}>
-          {/* ヘッダ */}
+          {/* ヘッダ }
           <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 1 }}>
             <Typography variant="h6">ルーム情報</Typography>
             <Button onClick={() => setOpen(false)}>閉じる</Button>
           </Stack>
 
-          {/* ルーム名 */}
+          {/* ルーム名 }
           <Box sx={{ mb: 2 }}>
             <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>{name}</Typography>
           </Box>
 
-          {/* カテゴリ（単一） */}
+          {/* カテゴリ（単一） }
           <Box sx={{ mb: 2 }}>
             <Typography variant="subtitle2" sx={{ mb: 0.5 }}>カテゴリ</Typography>
             {category ? (
@@ -79,7 +141,7 @@ const RoomInfoButton = ({ room = {} }) => {
 
           <Divider sx={{ my: 2 }} />
 
-          {/* メンバー（名前だけ列挙） */}
+          {/* メンバー（名前だけ列挙） }
           <Box>
             <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 1 }}>
               <Typography variant="subtitle2">メンバー</Typography>
