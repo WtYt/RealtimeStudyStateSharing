@@ -294,3 +294,7 @@ sketch
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/react,python,flask,visualstudiocode
+
+# key files
+backend/keys/
+backend/keys/*
