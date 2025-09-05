@@ -1,10 +1,9 @@
-import React from 'react';
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
 /**
  * props:
- * - categories: Array<{ key: string, label: string }>
- * - value: string            // 選択中の key
+ * - categories: Array<{ key: string, label: string }> <-keyってstringじゃなくてintか？
+ * - value: string            // 選択中の key 
  * - onChange: (key: string) => void
  * - label?: string
  */

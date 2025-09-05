@@ -22,19 +22,21 @@ export default function SearchPopupProvider({
     const open = useCallback(() => setOpened(true), []);
     const close = useCallback(() => setOpened(false), []);
 
-    const [tab, setTab] = useState('name');
-    const [inputName, setInputName] = useState('');
-    const [selectedKey, setSelectedKey] = useState('');
-    const [loading, setLoading] = useState(false);
-    const [results, setResults] = useState([]);
-    const [error, setError] = useState('');
+    const [tab, setTab] = useState('name'); // 'name' | 'category'
+    const [inputName, setInputName] = useState(''); // 検索ワード
+    const [selectedKey, setSelectedKey] = useState(''); // 選択中のカテゴリ key
+    const [loading, setLoading] = useState(false); // 検索中フラグ
+    const [results, setResults] = useState([]); // 検索結果
+    const [error, setError] = useState(''); // エラーメッセージ
 
+    // モーダルを開いたときに状態をリセット
     useEffect(() => {
         if (!opened) return;
         setTab('name'); setInputName(''); setSelectedKey('');
         setResults([]); setError(''); setLoading(false);
     }, [opened]);
 
+    // 名前検索
     const handleSearchByName = async () => {
         setLoading(true); setError(''); setResults([]);
         try {
@@ -44,6 +46,7 @@ export default function SearchPopupProvider({
         finally { setLoading(false); }
     };
 
+    // カテゴリ検索
     const handleSearchByCategory = async () => {
         setLoading(true); setError(''); setResults([]);
         try {
@@ -53,6 +56,7 @@ export default function SearchPopupProvider({
         finally { setLoading(false); }
     };
 
+    // ルーム名クリック時にonRoomClickを呼ぶ
     const handleRoomClick = (room) => {
         if (typeof onRoomClick === 'function') onRoomClick(room);
     };
