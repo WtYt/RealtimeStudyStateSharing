@@ -1,19 +1,18 @@
 from flask import Flask
 from flask_cors import CORS
+from initialize import init_firebase
 
-from db.database import db_bp
-from auth.authentication import auth_bp
+# Flaskアプリケーションの起動前に初期化処理を実行
+init_firebase()
+
+from server import auth_bp, db_bp
 
 app = Flask(__name__)
-CORS(app) # フロントエンドからのリクエストを許可
+CORS(app)
 
-# Blueprintの登録
-app.register_blueprint(db_bp, url_prefix='/db')
+# Register Blueprints
 app.register_blueprint(auth_bp, url_prefix='/auth')
-
-@app.route('/')
-def index():
-    return "Flask-Backend is running!"
+app.register_blueprint(db_bp, url_prefix='/db')
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5001)
+    app.run(debug=True)
