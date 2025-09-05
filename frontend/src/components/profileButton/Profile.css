@@ -1,0 +1,57 @@
+.profile-name {
+  font-size: 18px;
+  margin-bottom: 8px;
+}
+
+.status-section {
+  margin: 12px 0;
+}
+
+.settings-list {
+  list-style: none;
+  padding: 0;
+}
+
+.settings-list li {
+  padding: 8px 0;
+  cursor: pointer;
+}
+
+.user-setting-header {
+  display: flex;
+  justify-content: space-between;
+  cursor: pointer;
+}
+
+.sub-settings {
+  padding-left: 16px;
+}
+
+.divider {
+  margin-top: 16px;
+  border: 0;
+  border-top: 1px solid #ccc;
+}
+
+.delete-account-btn {
+  color: red;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 12px;
+}
+
+/* 削除ボタン */
+.delete-btn {
+  background: #dc3545;
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background: #a71d2a;
+}

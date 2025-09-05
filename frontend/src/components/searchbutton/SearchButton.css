@@ -1,4 +1,4 @@
-.signout-btn {
+.search-btn {
   background: transparent;
   border: none;
   cursor: pointer;
@@ -6,7 +6,7 @@
   top: 16px;
   right: 16px;
 }
-
-.signout-btn:hover {
-  color: #007bff;
+.search-btn:hover {
+  background: #eaf2ff;
+  box-shadow: 0 4px 16px rgba(79, 140, 255, 0.15);
 }
