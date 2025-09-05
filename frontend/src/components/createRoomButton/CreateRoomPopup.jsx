@@ -35,6 +35,13 @@ const CreateRoomPopup = ({ onClose }) => {
   return (
     <div className="popup-overlay" ref={overlayRef}>
       <div className="popup-content" ref={contentRef}>
+        <button
+          className="popup-close-btn"
+          onClick={onClose}
+          aria-label="閉じる"
+        >
+          閉じる
+        </button>
         <h2>新規ルーム作成</h2>
         <input
           type="text"
@@ -42,56 +49,31 @@ const CreateRoomPopup = ({ onClose }) => {
           value={roomName}
           onChange={(e) => setRoomName(e.target.value)}
         />
-        <div
-          style={{
-            width: '90%',
-            marginBottom: 16,
-            maxHeight: 140,
-            overflowY: 'auto',
-            border: '1px solid #bfcfff',
-            borderRadius: 6,
-            padding: 8,
-            background: '#f8faff',
-          }}
-        >
-          {categories.length === 0 ? (
-            <div style={{ color: '#888', fontSize: 14 }}>
-              カテゴリが設定されていません
-            </div>
-          ) : (
-            <ul
-              style={{
-                listStyle: 'none',
-                margin: 0,
-                padding: 0,
-                maxHeight: 120,
-                overflowY: 'auto',
-              }}
-            >
-              {categories.map(({ key, label }) => (
-                <li key={key} style={{ marginBottom: 4 }}>
-                  <label
-                    style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      cursor: 'pointer',
-                      width: '100%',
-                    }}
-                  >
-                    <input
-                      type="radio"
-                      name="category"
-                      value={key}
-                      checked={selectedCategory === key}
-                      onChange={() => setSelectedCategory(key)}
-                      style={{ marginRight: 8 }}
-                    />
-                    {label}
-                  </label>
-                </li>
-              ))}
-            </ul>
-          )}
+        <div style={{ width: '90%', marginBottom: 16 }}>
+          <label style={{ fontWeight: 500, marginBottom: 8, display: 'block' }}>
+            カテゴリ選択
+          </label>
+          <select
+            value={selectedCategory}
+            onChange={(e) => setSelectedCategory(e.target.value)}
+            style={{
+              width: '100%',
+              padding: '10px',
+              borderRadius: '6px',
+              border: '1px solid #bfcfff',
+              fontSize: '1rem',
+              background: '#f8faff',
+            }}
+          >
+            <option value="" disabled>
+              カテゴリを選択
+            </option>
+            {categories.map(({ key, label }) => (
+              <option key={key} value={key}>
+                {label}
+              </option>
+            ))}
+          </select>
         </div>
         <div className="popup-actions">
           <button onClick={onClose}>キャンセル</button>
