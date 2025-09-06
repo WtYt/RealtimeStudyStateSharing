@@ -15,7 +15,7 @@ export const createUser = async (email, nickname, docId) => {
           favorite_rooms_all: [],
           favorite_rooms_visible: [],
           name: nickname,
-          profile_pic_path: '',
+          profile_pic_path: '../userIcon/blue_icon.png',
           room_search_history: [],
           status: 0,
           updatedAt: date.toGMTString(),

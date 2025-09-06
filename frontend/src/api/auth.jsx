@@ -17,6 +17,12 @@ import { createUser } from './createUserOnDatabase';
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
+// 現在ログイン中のユーザーのUIDを取得
+export const getCurrentUserUid = () => {
+  const auth = getAuth(app);
+  return auth.currentUser ? auth.currentUser.uid : null;
+};
+
 export const SignIn = async (email, password) => {
   const auth = getAuth(app);
   try {

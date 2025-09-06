@@ -6,7 +6,6 @@ import FavoriteRoomPopup from '../../pages/FavoriteRoomPopup';
 import ConfirmPopup from '../ConfirmPopup';
 import { DeleteAccount } from '../../api/auth';
 import './Profile.css';
-import blueIcon from '../../userIcon/blue_icon.png';
 
 const Profile = () => {
   const [isUserSettingOpen, setIsUserSettingOpen] = useState(false);
@@ -40,10 +39,15 @@ const Profile = () => {
   // useDisplayProfileからデータ取得
   const profileData = useDisplayProfile();
 
+  // アイコン画像パス
+  const iconPath = profileData?.data?.profile_pic_path;
+  // ステータス値
+  const status = profileData?.data?.status;
+
   return (
     <div>
       <img
-        src={blueIcon}
+        src={iconPath}
         alt="ユーザーアイコン"
         style={{ width: 64, height: 64, borderRadius: '50%', marginBottom: 8 }}
       />
@@ -53,13 +57,16 @@ const Profile = () => {
       <div className="status-section">
         <p>ステータス</p>
         <label>
-          <input type="radio" name="status" /> 取り組み中
+          <input type="radio" name="status" checked={status === 0} readOnly />{' '}
+          取り組み中
         </label>
         <label>
-          <input type="radio" name="status" /> 離席中
+          <input type="radio" name="status" checked={status === 1} readOnly />{' '}
+          離席中
         </label>
         <label>
-          <input type="radio" name="status" /> オフライン
+          <input type="radio" name="status" checked={status === 2} readOnly />{' '}
+          オフライン
         </label>
       </div>
 
