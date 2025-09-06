@@ -1,12 +1,25 @@
 .create-room-btn {
-  background: transparent;
+  background: #2f6b3d;
   border: none;
   cursor: pointer;
-  color: #333;
-  top: 16px;
-  right: 16px;
+  color: #fff;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  transition:
+    background 0.2s,
+    box-shadow 0.2s;
 }
 .create-room-btn:hover {
-  background: #eaf2ff;
-  box-shadow: 0 4px 16px rgba(79, 140, 255, 0.15);
+  background: #3fa75c;
+  box-shadow: 0 4px 16px rgba(255, 255, 255, 0.18);
+}
+.create-room-btn svg {
+  color: #fff;
+  width: 38px;
+  height: 38px;
 }

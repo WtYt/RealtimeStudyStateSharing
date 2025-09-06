@@ -70,7 +70,7 @@ const Screen = ({ onSignOut }) => {
         style={{
           position: 'fixed',
           left: 24,
-          bottom: 105,
+          bottom: 120,
           zIndex: 101,
         }}
       >
@@ -81,7 +81,7 @@ const Screen = ({ onSignOut }) => {
         style={{
           position: 'fixed',
           right: 24,
-          bottom: 96,
+          bottom: 120,
           zIndex: 101,
         }}
       >

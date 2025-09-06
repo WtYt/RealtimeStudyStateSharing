@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FaCirclePlus } from 'react-icons/fa6';
+import { AiOutlinePlus } from 'react-icons/ai';
 import CreateRoomPopup from './CreateRoomPopup';
 import './CreateRoomButton.css';
 
@@ -9,7 +9,7 @@ const CreateRoomButton = () => {
   return (
     <>
       <div className="create-room-btn" onClick={() => setShowPopup(true)}>
-        <FaCirclePlus size={60} />
+        <AiOutlinePlus size={60} />
       </div>
       {showPopup && <CreateRoomPopup onClose={() => setShowPopup(false)} />}
     </>
