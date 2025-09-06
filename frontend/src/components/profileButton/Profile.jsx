@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDisplayProfile } from '../../api/displayProfile';
 import EachProfileEditPopup from '../../pages/EachProfileEditPopup';
 import FavoriteRoomPopup from '../../pages/FavoriteRoomPopup';
 import ConfirmPopup from '../ConfirmPopup';
@@ -34,10 +35,13 @@ const Profile = () => {
     closePopup();
   };
 
+  // useDisplayProfileからデータ取得
+  const profileData = useDisplayProfile();
+
   return (
     <div>
-      <h2 className="profile-name">名前：山田太郎</h2>
-      <p>ID：12345</p>
+      <h2 className="profile-name">名前：{profileData?.data?.name ?? '---'}</h2>
+      <p>メールアドレス：{profileData?.data?.user_id ?? '---'}</p>
 
       <div className="status-section">
         <p>ステータス</p>

@@ -12,7 +12,11 @@ const ProfileButton = () => {
       <button className="profile-btn" onClick={() => setIsOpen(true)}>
         <MdAccountCircle size={60} />
       </button>
-      {isOpen && <Portal><ProfileModal onClose={() => setIsOpen(false)} /></Portal>}
+      {isOpen && (
+        <Portal>
+          <ProfileModal onClose={() => setIsOpen(false)} />
+        </Portal>
+      )}
     </div>
   );
 };
