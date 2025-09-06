@@ -8,6 +8,8 @@ import FavoriteRoomTab from '../components/FavoriteRoomTab';
 import SearchPopupProvider from './searchPopup';
 import Blackboard from '../components/seating/Blackboard';
 import RoomDeskGrid from '../components/seating/RoomDeskGrid';
+import { searchRoomsByCategory, searchRoomsByName } from '../api/RoomSearch';
+import categories from '../components/categories.json'
 import './Screen.css';
 
 // デモ用のメンバー情報。実際はAPIから取得する。ルーム内人数は最大12を想定。
@@ -72,7 +74,12 @@ const Screen = () => {
         }}
       >
         <CreateRoomButton />
-        <SearchPopupProvider>
+        <SearchPopupProvider
+          categories={categories}
+          onSearchByName={searchRoomsByName}
+          onSearchByCategory={searchRoomsByCategory}
+          onRoomClick={(room) => alert(`ルーム「${room.name}」をクリックしました（API連携未実装）`)}
+        >
           {/* API連携ができたら、onSearchByName/onSearchByCategory/onRoomClickを渡す
         categoriesはハードコーディング  */}
           <SearchButton />
