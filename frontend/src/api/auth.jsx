@@ -11,16 +11,7 @@ import {
   signOut,
   updateProfile,
 } from 'firebase/auth';
-
-const firebaseConfig = {
-  apiKey: 'AIzaSyDDyab-LlQfvVRsfrTwcsOOEhl7d_DM6JY',
-  authDomain: 'realtimestudy-login.firebaseapp.com',
-  projectId: 'realtimestudy-login',
-  storageBucket: 'realtimestudy-login.firebasestorage.app',
-  messagingSenderId: '869567559647',
-  appId: '1:869567559647:web:a9b0bf78bb59556ca4f66a',
-  measurementId: 'G-94EG4FEBNR',
-};
+import firebaseConfig from './firebaseconfig';
 
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
