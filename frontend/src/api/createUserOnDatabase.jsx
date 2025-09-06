@@ -1,4 +1,4 @@
-export const createUser = async (email, nickname) => {
+export const createUser = async (email, nickname, docId) => {
   try {
     var date = new Date();
     const response = await fetch('http://127.0.0.1:5000/db/create', {
@@ -8,6 +8,7 @@ export const createUser = async (email, nickname) => {
       },
       body: JSON.stringify({
         collection: 'users',
+        doc_id: docId,
         data: {
           comment: '',
           createdAt: date.toGMTString(),

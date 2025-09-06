@@ -43,8 +43,11 @@ export const SignUp = async (email, password, nickname) => {
     // ニックネームをプロフィールに保存
     await updateProfile(userCredential.user, { displayName: nickname });
     await sendEmailVerification(userCredential.user);
-    // DBにユーザー情報を作成
-    await createUser(email, nickname);
+    console.log('confirm uid:', userCredential.user.uid);
+    // DBにユーザー情報を作成（doc_id=UID）
+    const userId = userCredential.user.uid;
+    await createUser(email, nickname, userId);
+    console.log('User created with ID:', userId);
     return userCredential.user;
   } catch (error) {
     console.error('Error signing up:', error);
