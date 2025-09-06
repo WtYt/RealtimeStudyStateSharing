@@ -12,13 +12,30 @@ const SignInScreen = ({ onLoginSuccess }) => {
     e.preventDefault();
     setError('');
     setLoading(true);
-    const email = e.target.email.value;
+    const email = e.target.email.value.trim();
     const password = e.target.password.value;
+    if (!email || !password) {
+      let missing = [];
+      if (!email) missing.push('メールアドレス');
+      if (!password) missing.push('パスワード');
+      setError(`${missing.join('と')}を記入して下さい`);
+      setLoading(false);
+      return;
+    }
     try {
       await SignIn(email, password);
       if (onLoginSuccess) onLoginSuccess();
     } catch (err) {
-      setError('ログインに失敗しました: ' + err.message);
+      // Firebaseのエラーコードで判定
+      if (
+        err.code === 'auth/wrong-password' ||
+        err.code === 'auth/user-not-found' ||
+        err.code === 'auth/invalid-credential'
+      ) {
+        setError('メールアドレスまたはパスワードが間違っています。');
+      } else {
+        setError('ログインに失敗しました: ' + err.message);
+      }
     } finally {
       setLoading(false);
     }
@@ -28,14 +45,33 @@ const SignInScreen = ({ onLoginSuccess }) => {
     e.preventDefault();
     setError('');
     setLoading(true);
-    const email = e.target['signup-email'].value;
+    const email = e.target['signup-email'].value.trim();
     const password = e.target['signup-password'].value;
-    const nickname = e.target['signup-name'].value;
+    const nickname = e.target['signup-name'].value.trim();
+    let missing = [];
+    if (!email) missing.push('メールアドレス');
+    if (!password) missing.push('パスワード');
+    if (!nickname) missing.push('ニックネーム');
+    if (missing.length > 0) {
+      setError(`${missing.join('と')}を記入して下さい`);
+      setLoading(false);
+      return;
+    }
+    if (password.length < 6) {
+      setError('パスワードは６文字以上で設定して下さい');
+      setLoading(false);
+      return;
+    }
     try {
       await SignUp(email, password, nickname);
       if (onLoginSuccess) onLoginSuccess();
     } catch (err) {
-      setError('新規登録に失敗しました: ' + err.message);
+      // Firebaseのエラーコードで判定
+      if (err.code === 'auth/weak-password') {
+        setError('パスワードは６文字以上で設定して下さい');
+      } else {
+        setError('新規登録に失敗しました: ' + err.message);
+      }
     } finally {
       setLoading(false);
     }
