@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDisplayProfile } from '../../api/displayProfile';
 import EachProfileEditPopup from '../../pages/EachProfileEditPopup';
-import { commentEdit } from '../../api/commentEdit';
+import { commentEdit, iconEdit, nameEdit } from '../../api/ChangeUserInfo';
 import FavoriteRoomPopup from '../../pages/FavoriteRoomPopup';
 import ConfirmPopup from '../ConfirmPopup';
 import { DeleteAccount } from '../../api/auth';
@@ -47,7 +47,7 @@ const Profile = () => {
   return (
     <div>
       <img
-        src={iconPath}
+        src={`../../../public/userIcon/${iconPath}`}
         alt="ユーザーアイコン"
         style={{ width: 64, height: 64, borderRadius: '50%', marginBottom: 8 }}
       />
@@ -114,15 +114,31 @@ const Profile = () => {
           }}
         />
       )}
+      {popupContent === 'アイコンを変更' && (
+        <EachProfileEditPopup
+          title={popupContent}
+          placeholder={`${popupContent}を選択してください`}
+          onClose={closePopup}
+          onSave={async (iconFile) => {
+            await iconEdit(iconFile);
+          }}
+        />
+      )}
       {popupContent &&
         popupContent !== 'お気に入りルーム設定' &&
         popupContent !== 'アカウント削除' &&
-        popupContent !== 'コメント編集' && (
+        popupContent !== 'コメント編集' &&
+        popupContent !== 'アイコンを変更' && (
           <EachProfileEditPopup
             title={popupContent}
             placeholder={`${popupContent}を入力してください`}
             onClose={closePopup}
-            onSave={(value) => console.log(`${popupContent}: ${value}`)}
+            onSave={async (value) => {
+              if (popupContent === 'ニックネーム変更') {
+                await nameEdit(value);
+              }
+              closePopup();
+            }}
           />
         )}
       {/* アカウント削除確認 */}
