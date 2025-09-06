@@ -4,6 +4,7 @@ import FavoriteRoomPopup from '../../pages/FavoriteRoomPopup';
 import ConfirmPopup from '../ConfirmPopup';
 import { DeleteAccount } from '../../api/auth';
 import './Profile.css';
+import blueIcon from '../../userIcon/blue_icon.png';
 
 const Profile = () => {
   const [isUserSettingOpen, setIsUserSettingOpen] = useState(false);
@@ -36,6 +37,11 @@ const Profile = () => {
 
   return (
     <div>
+      <img
+        src={blueIcon}
+        alt="ユーザーアイコン"
+        style={{ width: 64, height: 64, borderRadius: '50%', marginBottom: 8 }}
+      />
       <h2 className="profile-name">名前：山田太郎</h2>
       <p>ID：12345</p>
 
