@@ -32,13 +32,25 @@ def handle_create():
 def handle_read():
     # GETリクエストの全パラメータを辞書として取得し、そのまま渡す
     params = request.args.to_dict()
-    response_data, status_code = dbcrud.read_record(params)
+    response_data, status_code = dbcrud.read_document(params)
+    return jsonify(response_data), status_code
+
+@db_bp.route('/readcl', methods=['GET'])
+def handle_read_collection():
+    params = request.args.to_dict()
+    response_data, status_code = dbcrud.read_collection(params)
+    return jsonify(response_data), status_code
+
+@db_bp.route('/readbyfield', methods=['GET'])
+def handle_read_by_field():
+    params = request.args.to_dict()
+    response_data, status_code = dbcrud.read_document_by_field(params)
     return jsonify(response_data), status_code
 
 @db_bp.route('/update', methods=['PUT'])
 def handle_update():
     data = request.get_json()
-    response_data, status_code = dbcrud.update_record(data)
+    response_data, status_code = dbcrud.update_document(data)
     return jsonify(response_data), status_code
 
 @db_bp.route('/delete', methods=['DELETE'])
