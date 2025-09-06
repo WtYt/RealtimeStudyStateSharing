@@ -26,7 +26,7 @@ const demoMembers = [
   { id: 'u12', name: 'Niaj', status: 0, comment: '' },
 ];
 
-const Screen = () => {
+const Screen = ({ onSignOut }) => {
   return (
     <div className="screen-container">
       {/* 黒板帯（ヘッダー代わり） */}
@@ -52,7 +52,7 @@ const Screen = () => {
               <ProfileButton />
             </div>
             <div className="bb-action" aria-label="サインアウト" tabIndex={0}>
-              <SignOutButton />
+              <SignOutButton onSignOut={onSignOut} />
             </div>
           </div>
         }
