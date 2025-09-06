@@ -10,7 +10,7 @@ def init_firebase():
         # デフォルトのアプリが初期化されていない場合のみ初期化処理を行う
         if not firebase_admin._apps:
             # サービスアカウントキーのパスを指定
-            cred = credentials.Certificate("./keys/flask-test-ee614-firebase-adminsdk-fbsvc-8342bd1b8a.json")
+            cred = credentials.Certificate("./keys/realtimestudy-login-firebase-adminsdk-fbsvc-5030e26b75.json")
             firebase_admin.initialize_app(cred)
             print("Firebase Admin SDK initialized successfully.")
     except Exception as e:
