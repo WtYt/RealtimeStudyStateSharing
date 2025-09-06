@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { createRoom } from '../../api/CreateRoom';
 import './CreateRoomPopup.css';
-import { categories } from './categories';
+import categories from '../categories.json';
 import CategorySelector from '../searchbutton/CategorySelector';
 
 const CreateRoomPopup = ({ onClose }) => {
@@ -25,10 +26,13 @@ const CreateRoomPopup = ({ onClose }) => {
     return () => document.removeEventListener('mousedown', handleClick);
   }, [onClose]);
 
-  const handleCreate = () => {
+  const handleCreate = async () => {
     if (roomName.trim() === '' || !selectedCategory) return;
-    // TODO: ここでルーム作成処理を実装（API呼び出しなど）
-    console.log('新規ルーム作成:', roomName, selectedCategory);
+    try {
+      await createRoom(roomName, selectedCategory);
+    } catch (e) {
+      alert('ルーム作成に失敗しました');
+    }
     onClose();
   };
 
