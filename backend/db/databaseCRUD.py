@@ -13,12 +13,14 @@ def create_document(data):
     """
     Firestoreに新しいドキュメントを作成する
     引数: data (dict) - 作成するデータ。'collection'と'data'キーを含む必要がある。
+    'doc_id'キーがあれば、その値がドキュメントIDとして使用される。
     返り値: (dict, int) - レスポンスデータとHTTPステータスコードのタプル
     """
     if not db:
         return {"status": "error", "message": "Firestore is not initialized"}, 500
     
     collection_name = data.pop('collection', None)
+    doc_id = data.pop('doc_id', None)  # doc_idを取得
     if not collection_name:
         return {"status": "error", "message": "Collection name is missing in the request body"}, 400
 
@@ -31,9 +33,16 @@ def create_document(data):
         record_data['createdAt'] = firestore.SERVER_TIMESTAMP
         record_data['updatedAt'] = firestore.SERVER_TIMESTAMP
         
-        # 指定されたコレクションに新しいドキュメントを追加
-        update_time, doc_ref = db.collection(collection_name).add(record_data)
-        response_data = {"status": "success", "message": f"Record created with ID: {doc_ref.id}", "id": doc_ref.id}
+        if doc_id:
+            # doc_idが指定されている場合、そのIDでドキュメントを作成
+            doc_ref = db.collection(collection_name).document(doc_id)
+            doc_ref.set(record_data)
+            response_data = {"status": "success", "message": f"Record created with ID: {doc_ref.id}", "id": doc_ref.id}
+        else:
+            # doc_idが指定されていない場合、自動IDでドキュメントを追加
+            update_time, doc_ref = db.collection(collection_name).add(record_data)
+            response_data = {"status": "success", "message": f"Record created with ID: {doc_ref.id}", "id": doc_ref.id}
+            
         return response_data, 201
     except Exception as e:
         return {"status": "error", "message": str(e)}, 500
