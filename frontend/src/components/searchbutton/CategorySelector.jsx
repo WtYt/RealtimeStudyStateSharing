@@ -1,5 +1,5 @@
 import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
-
+import categories from '../categories.json';
 /**
  * props:
  * - categories: Array<{ key: string, label: string }> <-keyってstringじゃなくてintか？
@@ -8,11 +8,12 @@ import { FormControl, InputLabel, Select, MenuItem } from '@mui/material';
  * - label?: string
  */
 export default function CategorySelector({
-  categories = [],
-  value = '',
+  categories= [],
+  value='',
   onChange,
-  label = 'カテゴリ',
+  label = 'カテゴリー',
 }) {
+  const items = (categories || []).filter((c) => Number(c.key) !== 0);
   return (
     <FormControl fullWidth>
       <InputLabel id="category-select-label">{label}</InputLabel>
@@ -22,7 +23,7 @@ export default function CategorySelector({
         value={value}
         onChange={(e) => onChange?.(e.target.value)}
       >
-        {categories.map(({ key, label }) => (
+        {items.map(({ key, label }) => (
           <MenuItem key={key} value={key}>
             {label}
           </MenuItem>

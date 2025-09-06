@@ -1,0 +1,13 @@
+[
+    {"key": 0, "label": "未選択"},
+    {"key": 1, "label": "プログラミング"},
+    {"key": 2, "label": "数学"},
+    {"key": 3, "label": "英語"},
+    {"key": 4, "label": "理科"},
+    {"key": 5, "label": "歴史"},
+    {"key": 6, "label": "芸術"},
+    {"key": 7, "label": "音楽"},
+    {"key": 8, "label": "文学"},
+    {"key": 9, "label": "ビジネス"},
+    {"key": 10, "label": "デザイン"}
+]
