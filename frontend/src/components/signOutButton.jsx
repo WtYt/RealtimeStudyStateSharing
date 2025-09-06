@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { PiSignOutBold } from 'react-icons/pi';
 import ConfirmPopup from './ConfirmPopup';
+import Portal from './Portal';
 import './SignOutButton.css';
 
 const SignOutButton = () => {
@@ -17,13 +18,14 @@ const SignOutButton = () => {
         <PiSignOutBold size={60} />
       </button>
       {showPopup && (
-        <ConfirmPopup
-          message="サインアウトしますか？"
-          onClose={() => setShowPopup(false)}
-          onConfirm={handleSignOut}
-          confirmText="サインアウト"
+        <Portal>
+          <ConfirmPopup
+            message="サインアウトしますか？"
+            onClose={() => setShowPopup(false)}
+            onConfirm={handleSignOut}
+            confirmText="サインアウト"
           confirmType="primary"
-        />
+        /></Portal>
       )}
     </>
   );
