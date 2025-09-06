@@ -53,3 +53,38 @@
 
 # db/createのリファクタリング
 db/createとdb/updateでコレクション名もjsonから指定するようにせよ
+
+
+# db/add2arrayの作成
+databaseCRUD.pyに新しい関数add_to_array関数を作成せよ。また、server.pyに対応するようにルーティングを追加せよ。
+この関数は指定されたコレクション内の指定されたドキュメントにある、指定されたarrayに要素を追加する関数である。
+
+
+# roomManagement.pyの作成
+現在Firestore上にroomsというコレクションがある。この中にはルームの情報を持つドキュメントが格納されており、categoryフィールド(整数値)、in_room_usersフィールド(array)、nameフィールド(文字列)が存在している。
+db/roomManagement.pyを新たに作成し、このドキュメントを管理するためのcreateRoom関数、deleteRoom関数、addUser関数、removeUser関数を実装せよ。
+ただし実装に際して以下の要件を満たすこと。
+
+## createRoom関数
+- roomsコレクションに新たなドキュメントを追加する関数。
+- databaseCRUD.pyを用いてroomを作成する際のラッパーとして機能させる。
+- 引数としてcategory, nameを受け取り、空リストをin_room_usersの値として新しくドキュメントを作成する。
+- room/createのルーティングに対応するようにserver.pyに追加する。
+
+## deleteRoom関数
+- roomsコレクションから指定されたIDのドキュメントを削除する関数
+- createと同じようにdatabaseCRUD.pyのルーム削除時のラッパーとして機能させる。
+- 引数としてドキュメントIDを受け取り、該当のドキュメントを削除する。
+- こちらもroom/deleteのルーティングに対応するようにserver.pyに追加する。
+
+## addUser関数
+- 指定されたIDのドキュメントのin_room_usersフィールドのarrayに指定されたユーザーIDを追加する。
+- こちらもdatabaseCRUD.pyからadd_to_array関数のラッパーとして機能させる。
+- 引数としてドキュメントIDと、ユーザーIDを受け取り、add_to_array関数を利用してroomsコレクションのドキュメントのin_room_usersフィールドにユーザーIDを追加する。
+- こちらもroom/adduserのルーティングに対応するようにserver.pyに追加する。
+
+## removeUser関数
+- 指定されたIDのドキュメントのin_room_usersフィールドのarrayに指定されたユーザーIDを削除する。
+- こちらもdatabaseCRUD.pyからremove_from_array関数のラッパーとして機能させる。
+- 引数としてドキュメントIDと、ユーザーIDを受け取り、remove_from_array関数を利用してroomsコレクションのドキュメントのin_room_usersフィールドから指定したユーザーIDを削除する。
+- こちらもroom/removeuserのルーティングに対応するようにserver.pyに追加する。
