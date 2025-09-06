@@ -10,10 +10,10 @@ const FavoriteRoomTab = () => {
       {rooms.map((room) => (
         <button
           key={room}
-          className={`tab ${activeRoom === room ? 'active' : ''}`}
+          className={`tab${activeRoom === room ? ' active' : ''}`}
           onClick={() => setActiveRoom(room)}
         >
-          {room}
+          <span>{room}</span>
         </button>
       ))}
     </div>

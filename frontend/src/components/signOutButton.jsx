@@ -1,21 +1,35 @@
 import React, { useState } from 'react';
+import { SignOut } from '../api/auth';
 import { PiSignOutBold } from 'react-icons/pi';
 import ConfirmPopup from './ConfirmPopup';
 import Portal from './Portal';
 import './SignOutButton.css';
 
-const SignOutButton = () => {
+const SignOutButton = ({ onSignOut }) => {
   const [showPopup, setShowPopup] = useState(false);
-  const handleSignOut = () => {
-    console.log('サインアウト処理を実行');
-    setShowPopup(false);
-    // TODO: Firebase Authなどでサインアウト処理を実装
+  const [loading, setLoading] = useState(false);
+  const handleSignOut = async () => {
+    setLoading(true);
+    try {
+      await SignOut();
+      localStorage.removeItem('isLoggedIn');
+      if (onSignOut) onSignOut();
+    } catch (e) {
+      alert('サインアウトに失敗しました');
+    } finally {
+      setLoading(false);
+      setShowPopup(false);
+    }
   };
 
   return (
     <>
-      <button className="signout-btn" onClick={() => setShowPopup(true)}>
-        <PiSignOutBold size={28} />
+      <button
+        className="signout-btn"
+        onClick={() => setShowPopup(true)}
+        disabled={loading}
+      >
+        <PiSignOutBold size={60} />
       </button>
       {showPopup && (
         <Portal>
@@ -24,8 +38,9 @@ const SignOutButton = () => {
             onClose={() => setShowPopup(false)}
             onConfirm={handleSignOut}
             confirmText="サインアウト"
-          confirmType="primary"
-        /></Portal>
+            confirmType="primary"
+          />
+        </Portal>
       )}
     </>
   );

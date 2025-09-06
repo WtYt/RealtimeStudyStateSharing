@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import EachProfileEditPopup from '../../pages/EachProfileEditPopup';
 import FavoriteRoomPopup from '../../pages/FavoriteRoomPopup';
 import ConfirmPopup from '../ConfirmPopup';
+import { DeleteAccount } from '../../api/auth';
 import './Profile.css';
 
 const Profile = () => {
@@ -22,8 +23,14 @@ const Profile = () => {
     { id: 3, name: 'Room C', isFavorite: true, isVisible: false },
   ];
 
-  const handleAccountDelete = () => {
-    console.log('アカウント削除しました');
+  const handleAccountDelete = async () => {
+    try {
+      await DeleteAccount();
+      localStorage.removeItem('isLoggedIn');
+      window.location.reload();
+    } catch (e) {
+      alert('アカウント削除に失敗しました');
+    }
     closePopup();
   };
 

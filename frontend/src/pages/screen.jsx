@@ -28,57 +28,69 @@ const demoMembers = [
   { id: 'u12', name: 'Niaj', status: 0, comment: '' },
 ];
 
-const Screen = () => {
+const Screen = ({ onSignOut }) => {
   return (
     <div className="screen-container">
-      {/* 黒板帯（ヘッダー代わり） */}
-      <Blackboard
-        title="Web自習室（仮）"
-        subtitle="みんなで一緒に勉強しよう！"
-        left={
-          <div className="bb-left">
-            <div className="bb-action" aria-label="ルーム情報" tabIndex={0}>
-              <RoomInfoButton
-                room={{
-                  name: 'TOEIC',
-                  category: '英語',
-                  members: demoMembers.map(m => ({ id: m.id, name: m.name })),
-                }}
-              />
+      <header className="header">
+        <Blackboard
+          title="Web自習室（仮)"
+          subtitle="みんなで一緒に勉強しよう！"
+          left={
+            <div className="bb-left">
+              <div className="bb-action" aria-label="ルーム情報" tabIndex={0}>
+                <RoomInfoButton
+                  room={{
+                    name: 'TOEIC',
+                    category: '英語',
+                    members: demoMembers.map((m) => ({
+                      id: m.id,
+                      name: m.name,
+                    })),
+                  }}
+                />
+              </div>
             </div>
-          </div>
-        }
-        right={
-          <div className="bb-right">
-            <div className="bb-action" aria-label="プロフィール" tabIndex={0}>
-              <ProfileButton />
+          }
+          right={
+            <div className="bb-right">
+              <div className="bb-action" aria-label="プロフィール" tabIndex={0}>
+                <ProfileButton />
+              </div>
+              <div className="bb-action" aria-label="サインアウト" tabIndex={0}>
+                <SignOutButton onSignOut={onSignOut} />
+              </div>
             </div>
-            <div className="bb-action" aria-label="サインアウト" tabIndex={0}>
-              <SignOutButton />
-            </div>
-          </div>
-        }
-      />
+          }
+        />
+      </header>
       <main className="main-content">
         {/* <p>ここにルームのメインコンテンツが表示されます。</p> */}
         <RoomDeskGrid members={demoMembers} />
       </main>
+      {/* 左下：ルーム作成ボタン */}
       <div
         style={{
           position: 'fixed',
-          right: 80,
-          bottom: 96,
+          left: 24,
+          bottom: 120,
           zIndex: 101,
-          display: 'flex',
-          gap: 12,
         }}
       >
         <CreateRoomButton />
+      </div>
+      {/* 右下：検索ボタン */}
+      <div
+        style={{
+          position: 'fixed',
+          right: 24,
+          bottom: 120,
+          zIndex: 101,
+        }}
+      >
         <SearchPopupProvider
           categories={categories}
           onSearchByName={searchRoomsByName}
           onSearchByCategory={searchRoomsByCategory}
-          onRoomClick={(room) => alert(`ルーム「${room.name}」をクリックしました（API連携未実装）`)}
         >
           {/* API連携ができたら、onSearchByName/onSearchByCategory/onRoomClickを渡す
         categoriesはハードコーディング  */}
