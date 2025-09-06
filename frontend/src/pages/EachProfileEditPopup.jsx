@@ -23,28 +23,29 @@ const EachProfileEditPopup = ({ title, placeholder, onClose, onSave }) => {
               marginBottom: 16,
             }}
           >
-            {['😀', '😎', '🐱', '🐶', '🍀', '🌸', '🚗', '🎸', '📚', '💻'].map(
-              (icon) => (
-                <button
-                  key={icon}
-                  type="button"
-                  style={{
-                    fontSize: '2rem',
-                    background: inputValue === icon ? '#eaf2ff' : '#fff',
-                    border:
-                      inputValue === icon
-                        ? '2px solid #4f8cff'
-                        : '1px solid #ccc',
-                    borderRadius: '8px',
-                    cursor: 'pointer',
-                    padding: '8px',
-                  }}
-                  onClick={() => setInputValue(icon)}
-                >
-                  {icon}
-                </button>
-              )
-            )}
+            {['blue_icon.png', 'pink_icon.png'].map((iconFile) => (
+              <button
+                key={iconFile}
+                type="button"
+                style={{
+                  background: inputValue === iconFile ? '#eaf2ff' : '#fff',
+                  border:
+                    inputValue === iconFile
+                      ? '2px solid #4f8cff'
+                      : '1px solid #ccc',
+                  borderRadius: '8px',
+                  cursor: 'pointer',
+                  padding: '8px',
+                }}
+                onClick={() => setInputValue(iconFile)}
+              >
+                <img
+                  src={'/userIcon/' + iconFile}
+                  alt={iconFile}
+                  style={{ width: 48, height: 48, borderRadius: '50%' }}
+                />
+              </button>
+            ))}
           </div>
         ) : (
           <textarea
