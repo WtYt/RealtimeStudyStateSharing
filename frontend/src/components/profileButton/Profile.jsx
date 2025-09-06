@@ -4,7 +4,7 @@ import FavoriteRoomPopup from '../../pages/FavoriteRoomPopup';
 import ConfirmPopup from '../ConfirmPopup';
 import { DeleteAccount } from '../../api/auth';
 import './Profile.css';
-import blueIcon from '../../userIcon/blue_icon.png';
+import blueIcon from '../../../public/userIcon/blue_icon.png';
 
 const Profile = () => {
   const [isUserSettingOpen, setIsUserSettingOpen] = useState(false);
