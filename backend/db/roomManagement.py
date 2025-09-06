@@ -16,17 +16,17 @@ def create_room(data):
     }
     return db.create_document(room_data)
 
-def delete_room(data):
+def delete_room(params):
     """
     Deletes a room from the 'rooms' collection.
     Wrapper for databaseCRUD.delete_document.
-    Expects 'doc_id' in data.
+    Expects 'doc_id' in params.
     """
-    params = {
+    delete_params = {
         "collection": "rooms",
-        "doc_id": data.get('doc_id')
+        "doc_id": params.get('doc_id')
     }
-    return db.delete_document(params)
+    return db.delete_document(delete_params)
 
 def add_user(data):
     """
