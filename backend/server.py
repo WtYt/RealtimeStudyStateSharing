@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from auth import authentication
 from db import databaseCRUD as dbcrud
+from db import roomManagement
 
 # 認証関連のBlueprint
 auth_bp = Blueprint('auth', __name__)
@@ -24,7 +25,7 @@ db_bp = Blueprint('db', __name__)
 @db_bp.route('/create', methods=['POST'])
 def handle_create():
     data = request.get_json()
-    response_data, status_code = dbcrud.create_record(data)
+    response_data, status_code = dbcrud.create_document(data)
     return jsonify(response_data), status_code
 
 @db_bp.route('/read', methods=['GET'])
@@ -43,10 +44,50 @@ def handle_update():
 @db_bp.route('/delete', methods=['DELETE'])
 def handle_delete():
     params = request.args.to_dict()
-    response_data, status_code = dbcrud.delete_record(params)
+    response_data, status_code = dbcrud.delete_document(params)
     return jsonify(response_data), status_code
 
 @db_bp.route('/search', methods=['GET'])
 def handle_search():
     pass # TODO
     return jsonify({"status": "error", "message": "Not implemented"}), 501
+
+@db_bp.route('/add2array', methods=['PUT'])
+def handle_add_to_array():
+    data = request.get_json()
+    response_data, status_code = dbcrud.add_to_array(data)
+    return jsonify(response_data), status_code
+
+@db_bp.route('/remove_from_array', methods=['PUT'])
+def handle_remove_from_array():
+    data = request.get_json()
+    response_data, status_code = dbcrud.remove_from_array(data)
+    return jsonify(response_data), status_code
+
+
+# ルーム管理関連のBlueprint
+room_bp = Blueprint('room', __name__)
+
+@room_bp.route('/create', methods=['POST'])
+def handle_create_room():
+    data = request.get_json()
+    response_data, status_code = roomManagement.create_room(data)
+    return jsonify(response_data), status_code
+
+@room_bp.route('/delete', methods=['DELETE'])
+def handle_delete_room():
+    data = request.get_json()
+    response_data, status_code = roomManagement.delete_room(data)
+    return jsonify(response_data), status_code
+
+@room_bp.route('/adduser', methods=['PUT'])
+def handle_add_user():
+    data = request.get_json()
+    response_data, status_code = roomManagement.add_user(data)
+    return jsonify(response_data), status_code
+
+@room_bp.route('/removeuser', methods=['PUT'])
+def handle_remove_user():
+    data = request.get_json()
+    response_data, status_code = roomManagement.remove_user(data)
+    return jsonify(response_data), status_code
