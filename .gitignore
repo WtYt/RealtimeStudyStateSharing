@@ -298,3 +298,6 @@ sketch
 # key files
 backend/keys/
 backend/keys/*
+
+# firebase config
+frontend/api/firebaseConfig.jsx
