@@ -1,146 +1,152 @@
 /* 黒板帯（ヘッダー代わり） */
 .bb-strip {
-    width: 100%;
-    background:
-        linear-gradient(#2f6b3d, #2f6b3d) padding-box,
-        linear-gradient(45deg, #8b5a2b, #8b5a2b) border-box;
-    border-bottom: 16px solid #8b5a2b;
-    /* 木枠下辺 */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-    flex-shrink: 0;
-    /* 高さを保つ */
-    position: relative;
-    top: 0;
-    z-index: 1200;
+  width: 100%;
+  background:
+    linear-gradient(#2f6b3d, #2f6b3d) padding-box,
+    linear-gradient(45deg, #8b5a2b, #8b5a2b) border-box;
+  border-bottom: 16px solid #8b5a2b;
+  /* 木枠下辺 */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+  flex-shrink: 0;
+  /* 高さを保つ */
+  position: relative;
+  top: 0;
+  z-index: 1200;
 }
 
 .bb-inner {
-    position: relative;
-    /* ← タイトルを“真ん中固定”にするため */
-    height: clamp(80px, 11vw, 132px);
-    /* ← 少し大きく */
-    width: 100%;
-    /* ← 端まで使う */
-    padding: 0 8px;
-    /* ← 両端の余白を薄くして“端に詰める” */
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: #fff;
-    gap: 12px;
+  position: relative;
+  /* ← タイトルを“真ん中固定”にするため */
+  height: clamp(80px, 11vw, 132px);
+  /* ← 少し大きく */
+  width: 100%;
+  /* ← 端まで使う */
+  padding: 0 8px;
+  /* ← 両端の余白を薄くして“端に詰める” */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+  gap: 12px;
 }
 
 .bb-left {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex: 0 0 auto;
 }
 
 /* 中央は縦積み（タイトル＋サブタイトル） */
 .bb-center {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
-    min-width: 0;
-    pointer-events: none;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+  pointer-events: none;
 }
 
 .bb-right {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 12px;
-    flex: 0 0 auto;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 12px;
+  flex: 0 0 auto;
+  padding-right: 16px;
 }
 
 .bb-title {
-    font-weight: 800;
-    letter-spacing: .28em;
-    text-align: center;
-    font-size: clamp(20px, 3.2vw, 36px);
-    text-shadow: 0 1px 0 rgba(0, 0, 0, .25);
-    user-select: none;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  font-weight: 800;
+  letter-spacing: 0.28em;
+  text-align: center;
+  font-size: clamp(20px, 3.2vw, 36px);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
+  user-select: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .bb-subtitle {
-    font-size: clamp(12px, 1.7vw, 15px);
-    opacity: .9;
-    user-select: none;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+  font-size: clamp(12px, 1.7vw, 15px);
+  opacity: 0.9;
+  user-select: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 /* ――― 黒板上の「押せるボタン」見た目（汎用ラッパ）――― */
 .bb-action {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 60px;
-    height: 60px;
-    border-radius: 999px;
-    backdrop-filter: blur(2px);
-    background: rgba(255, 255, 255, 0.14);
-    border: 1px solid rgba(255, 255, 255, 0.22);
-    cursor: pointer;
-    transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease, border-color 120ms ease;
-    outline: none;
-    position: relative;
-    z-index: 1300;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  border-radius: 999px;
+  backdrop-filter: blur(2px);
+  background: rgba(255, 255, 255, 0.14);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  cursor: pointer;
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease,
+    background 120ms ease,
+    border-color 120ms ease;
+  outline: none;
+  position: relative;
+  z-index: 1300;
 }
 
 .bb-action:hover {
-    background: rgba(255, 255, 255, 0.22);
-    box-shadow: 0 2px 10px rgba(0, 0, 0, .2);
-    transform: translateY(-1px) scale(1.04);
-    border-color: rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.22);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+  transform: translateY(-1px) scale(1.04);
+  border-color: rgba(255, 255, 255, 0.35);
 }
 
 .bb-action:active {
-    transform: translateY(0) scale(0.98);
+  transform: translateY(0) scale(0.98);
 }
 
 .bb-action:focus-visible {
-    box-shadow: 0 0 0 3px rgba(30, 144, 255, 0.65);
+  box-shadow: 0 0 0 3px rgba(30, 144, 255, 0.65);
 }
 
 /* 中のアイコン（既存ボタンのアイコンにも効くよう色を継承） */
 .bb-action :where(svg) {
-    color: #fff;
-    width: 30px;
-    height: 30px;
+  color: #fff;
+  width: 30px;
+  height: 30px;
 }
 
 /* スマホでアクションが詰まるのを防ぐ */
 @media (max-width: 520px) {
-    .bb-inner {
-        gap: 8px;
-        padding: 0 6px;
-    }
+  .bb-inner {
+    gap: 8px;
+    padding: 0 6px;
+  }
 
-    .bb-title {
-        letter-spacing: .18em;
-    }
+  .bb-title {
+    letter-spacing: 0.18em;
+  }
 
-    .bb-right {
-        gap: 6px;
-    }
+  .bb-right {
+    gap: 6px;
+    padding-right: 8px;
+  }
 
-    .bb-action {
-        width: 48px;
-        height: 48px;
-    }
+  .bb-action {
+    width: 48px;
+    height: 48px;
+  }
 
-    .bb-action :where(svg) {
-        width: 26px;
-        height: 26px;
-    }
+  .bb-action :where(svg) {
+    width: 26px;
+    height: 26px;
+  }
 }

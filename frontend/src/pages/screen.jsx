@@ -29,34 +29,38 @@ const demoMembers = [
 const Screen = ({ onSignOut }) => {
   return (
     <div className="screen-container">
-      {/* 黒板帯（ヘッダー代わり） */}
-      <Blackboard
-        title="Web自習室（仮）"
-        subtitle="みんなで一緒に勉強しよう！"
-        left={
-          <div className="bb-left">
-            <div className="bb-action" aria-label="ルーム情報" tabIndex={0}>
-              <RoomInfoButton
-                room={{
-                  name: 'TOEIC',
-                  category: '英語',
-                  members: demoMembers.map((m) => ({ id: m.id, name: m.name })),
-                }}
-              />
+      <header className="header">
+        <Blackboard
+          title="Web自習室（仮)"
+          subtitle="みんなで一緒に勉強しよう！"
+          left={
+            <div className="bb-left">
+              <div className="bb-action" aria-label="ルーム情報" tabIndex={0}>
+                <RoomInfoButton
+                  room={{
+                    name: 'TOEIC',
+                    category: '英語',
+                    members: demoMembers.map((m) => ({
+                      id: m.id,
+                      name: m.name,
+                    })),
+                  }}
+                />
+              </div>
             </div>
-          </div>
-        }
-        right={
-          <div className="bb-right">
-            <div className="bb-action" aria-label="プロフィール" tabIndex={0}>
-              <ProfileButton />
+          }
+          right={
+            <div className="bb-right">
+              <div className="bb-action" aria-label="プロフィール" tabIndex={0}>
+                <ProfileButton />
+              </div>
+              <div className="bb-action" aria-label="サインアウト" tabIndex={0}>
+                <SignOutButton onSignOut={onSignOut} />
+              </div>
             </div>
-            <div className="bb-action" aria-label="サインアウト" tabIndex={0}>
-              <SignOutButton onSignOut={onSignOut} />
-            </div>
-          </div>
-        }
-      />
+          }
+        />
+      </header>
       <main className="main-content">
         {/* <p>ここにルームのメインコンテンツが表示されます。</p> */}
         <RoomDeskGrid members={demoMembers} />

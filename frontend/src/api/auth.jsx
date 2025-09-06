@@ -48,8 +48,8 @@ export const SignUp = async (email, password, nickname) => {
       email,
       password
     );
-  // ニックネームをプロフィールに保存
-  await updateProfile(userCredential.user, { displayName: nickname });
+    // ニックネームをプロフィールに保存
+    await updateProfile(userCredential.user, { displayName: nickname });
     await sendEmailVerification(userCredential.user);
     return userCredential.user;
   } catch (error) {

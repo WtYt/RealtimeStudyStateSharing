@@ -1,18 +1,19 @@
 /* 自動レスポンシブ：カードを敷き詰める */
 .room-grid {
-    width: 100%;
-    max-width: 1200px;
-    margin: 12px auto 16px;
-    padding: 0 12px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: clamp(10px, 2vw, 18px);
+  width: 100%;
+  max-width: 1200px;
+  margin: 12px auto 16px;
+  padding: 0 12px;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: clamp(10px, 2vw, 18px);
+  min-height: 320px;
 }
 
 /* タブレットで少し大きめに見せたい場合は好みで調整可 */
 @media (min-width: 1280px) {
-    .room-grid {
-        grid-template-columns: repeat(4, 1fr);
-        /* 4列固定にしたい場合 */
-    }
+  .room-grid {
+    grid-template-columns: repeat(4, 1fr);
+    /* 4列固定にしたい場合 */
+  }
 }
