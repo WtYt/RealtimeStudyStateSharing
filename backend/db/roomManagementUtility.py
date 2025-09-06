@@ -38,7 +38,7 @@ def add_user(data):
         "collection": "rooms",
         "doc_id": data.get('doc_id'),
         "field": "in_room_users",
-        "values": [data.get('user_id')]
+        "value": data.get('user_id')
     }
     return db.add_to_array(array_data)
 
@@ -52,6 +52,6 @@ def remove_user(data):
         "collection": "rooms",
         "doc_id": data.get('doc_id'),
         "field": "in_room_users",
-        "values": [data.get('user_id')]
+        "value": data.get('user_id')
     }
     return db.remove_from_array(array_data)

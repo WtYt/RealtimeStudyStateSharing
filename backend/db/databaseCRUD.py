@@ -92,14 +92,30 @@ def read_document_by_field(params):
         return {"status": "error", "message": "Missing required parameters: collection, field, value"}, 400
 
     try:
+        # valueが整数値か判定
+        try:
+            int_value = int(value)
+            is_int = True
+        except (ValueError, TypeError):
+            is_int = False
+
         doc_ref = db.collection(collection_name)
-        docs = doc_ref.stream()
         result = []
-        for doc in docs:
-            doc_dict = doc.to_dict()
-            field_value = str(doc_dict.get(field, ""))
-            if value in field_value:
+        if is_int:
+            # Firestoreクエリで検索
+            query = doc_ref.where(field, "==", int_value)
+            docs = query.stream()
+            for doc in docs:
+                doc_dict = doc.to_dict()
                 result.append({"id": doc.id, **doc_dict})
+        else:
+            # 文字列部分一致はローカルフィルタ
+            docs = doc_ref.stream()
+            for doc in docs:
+                doc_dict = doc.to_dict()
+                field_value = str(doc_dict.get(field, ""))
+                if value in field_value:
+                    result.append({"id": doc.id, **doc_dict})
         response_data = {"status": "success", "data": result}
         return response_data, 200
     except Exception as e:
@@ -203,25 +219,19 @@ def add_to_array(data):
     collection_name = data.get('collection')
     doc_id = data.get('doc_id')
     field_name = data.get('field')
-    values_to_add = data.get('values')
+    value_to_add = data.get('value')
 
-    if not all([collection_name, doc_id, field_name, values_to_add]):
-        return {"status": "error", "message": "Missing required parameters: collection, doc_id, field, and values"}, 400
-
-    if not isinstance(values_to_add, list):
-        return {"status": "error", "message": "'values' must be a list"}, 400
+    if not all([collection_name, doc_id, field_name, value_to_add]):
+        return {"status": "error", "message": "Missing required parameters: collection, doc_id, field, and value"}, 400
 
     try:
         doc_ref = db.collection(collection_name).document(doc_id)
-        
         update_data = {
-            field_name: firestore.ArrayUnion(values_to_add),
+            field_name: firestore.ArrayUnion([value_to_add]),
             'updatedAt': firestore.SERVER_TIMESTAMP
         }
-        
         doc_ref.update(update_data)
-        
-        response_data = {"status": "success", "message": f"Elements added to '{field_name}' in document {doc_id}"}
+        response_data = {"status": "success", "message": f"Value added to '{field_name}' in document {doc_id}"}
         return response_data, 200
     except Exception as e:
         return {"status": "error", "message": str(e)}, 500
@@ -240,25 +250,19 @@ def remove_from_array(data):
     collection_name = data.get('collection')
     doc_id = data.get('doc_id')
     field_name = data.get('field')
-    values_to_remove = data.get('values')
+    value_to_remove = data.get('value')
 
-    if not all([collection_name, doc_id, field_name, values_to_remove]):
-        return {"status": "error", "message": "Missing required parameters: collection, doc_id, field, and values"}, 400
-
-    if not isinstance(values_to_remove, list):
-        return {"status": "error", "message": "'values' must be a list"}, 400
+    if not all([collection_name, doc_id, field_name, value_to_remove]):
+        return {"status": "error", "message": "Missing required parameters: collection, doc_id, field, and value"}, 400
 
     try:
         doc_ref = db.collection(collection_name).document(doc_id)
-        
         update_data = {
-            field_name: firestore.ArrayRemove(values_to_remove),
+            field_name: firestore.ArrayRemove([value_to_remove]),
             'updatedAt': firestore.SERVER_TIMESTAMP
         }
-        
         doc_ref.update(update_data)
-        
-        response_data = {"status": "success", "message": f"Elements removed from '{field_name}' in document {doc_id}"}
+        response_data = {"status": "success", "message": f"Value removed from '{field_name}' in document {doc_id}"}
         return response_data, 200
     except Exception as e:
         return {"status": "error", "message": str(e)}, 500

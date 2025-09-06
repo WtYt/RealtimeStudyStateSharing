@@ -1,7 +1,7 @@
 from flask import Blueprint, request, jsonify
 from auth import authentication
 from db import databaseCRUD as dbcrud
-from db import roomManagement
+from db import roomManagementUtility as rmu
 
 # 認証関連のBlueprint
 auth_bp = Blueprint('auth', __name__)
@@ -83,23 +83,23 @@ room_bp = Blueprint('room', __name__)
 @room_bp.route('/create', methods=['POST'])
 def handle_create_room():
     data = request.get_json()
-    response_data, status_code = roomManagement.create_room(data)
+    response_data, status_code = rmu.create_room(data)
     return jsonify(response_data), status_code
 
 @room_bp.route('/delete', methods=['DELETE'])
 def handle_delete_room():
     params = request.args.to_dict()
-    response_data, status_code = roomManagement.delete_room(params)
+    response_data, status_code = rmu.delete_room(params)
     return jsonify(response_data), status_code
 
 @room_bp.route('/adduser', methods=['PUT'])
 def handle_add_user():
     data = request.get_json()
-    response_data, status_code = roomManagement.add_user(data)
+    response_data, status_code = rmu.add_user(data)
     return jsonify(response_data), status_code
 
 @room_bp.route('/removeuser', methods=['PUT'])
 def handle_remove_user():
     data = request.get_json()
-    response_data, status_code = roomManagement.remove_user(data)
+    response_data, status_code = rmu.remove_user(data)
     return jsonify(response_data), status_code
