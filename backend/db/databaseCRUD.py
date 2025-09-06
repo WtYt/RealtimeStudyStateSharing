@@ -48,7 +48,7 @@ def create_document(data):
         return {"status": "error", "message": str(e)}, 500
 
 # Read
-def read_record(params):
+def read_document(params):
     """
     Firestoreからドキュメントを読み込む
     引数: params (dict) - 'collection'と'doc_id'を含む辞書
@@ -75,8 +75,63 @@ def read_record(params):
     except Exception as e:
         return {"status": "error", "message": str(e)}, 500
 
+# Read by field (部分一致)
+def read_document_by_field(params):
+    """
+    指定したフィールドの値に部分一致するドキュメントを返す
+    引数: params (dict) - 'collection', 'field', 'value' を含む辞書
+    返り値: (dict, int) - レスポンスデータとHTTPステータスコードのタプル
+    """
+    if not db:
+        return {"status": "error", "message": "Firestore is not initialized"}, 500
+
+    collection_name = params.get('collection')
+    field = params.get('field')
+    value = params.get('value')
+    if not all([collection_name, field, value]):
+        return {"status": "error", "message": "Missing required parameters: collection, field, value"}, 400
+
+    try:
+        doc_ref = db.collection(collection_name)
+        docs = doc_ref.stream()
+        result = []
+        for doc in docs:
+            doc_dict = doc.to_dict()
+            field_value = str(doc_dict.get(field, ""))
+            if value in field_value:
+                result.append({"id": doc.id, **doc_dict})
+        response_data = {"status": "success", "data": result}
+        return response_data, 200
+    except Exception as e:
+        return {"status": "error", "message": str(e)}, 500
+
+# Read Collection
+def read_collection(params):
+    """
+    Firestoreコレクションの全ドキュメントを取得する
+    引数: params (dict) - 'collection'を含む辞書
+    返り値: (dict, int) - レスポンスデータとHTTPステータスコードのタプル
+    """
+    if not db:
+        return {"status": "error", "message": "Firestore is not initialized"}, 500
+
+    collection_name = params.get('collection')
+    if not collection_name:
+        return {"status": "error", "message": "Collection name is missing in the request body"}, 400
+
+    try:
+        doc_ref = db.collection(collection_name)
+        docs = doc_ref.stream()
+        result = [{"id": doc.id, **doc.to_dict()} for doc in docs]
+        response_data = {"status": "success", "data": result}
+        return response_data, 200
+    except Exception as e:
+        return {"status": "error", "message": str(e)}, 500
+
+
+
 # Update
-def update_record(data):
+def update_document(data):
     """
     Firestoreのドキュメントを更新する
     引数:
