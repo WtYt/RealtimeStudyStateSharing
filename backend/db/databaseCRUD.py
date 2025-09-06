@@ -92,14 +92,30 @@ def read_document_by_field(params):
         return {"status": "error", "message": "Missing required parameters: collection, field, value"}, 400
 
     try:
+        # valueが整数値か判定
+        try:
+            int_value = int(value)
+            is_int = True
+        except (ValueError, TypeError):
+            is_int = False
+
         doc_ref = db.collection(collection_name)
-        docs = doc_ref.stream()
         result = []
-        for doc in docs:
-            doc_dict = doc.to_dict()
-            field_value = str(doc_dict.get(field, ""))
-            if value in field_value:
+        if is_int:
+            # Firestoreクエリで検索
+            query = doc_ref.where(field, "==", int_value)
+            docs = query.stream()
+            for doc in docs:
+                doc_dict = doc.to_dict()
                 result.append({"id": doc.id, **doc_dict})
+        else:
+            # 文字列部分一致はローカルフィルタ
+            docs = doc_ref.stream()
+            for doc in docs:
+                doc_dict = doc.to_dict()
+                field_value = str(doc_dict.get(field, ""))
+                if value in field_value:
+                    result.append({"id": doc.id, **doc_dict})
         response_data = {"status": "success", "data": result}
         return response_data, 200
     except Exception as e:
