@@ -76,8 +76,8 @@ def handle_create_room():
 
 @room_bp.route('/delete', methods=['DELETE'])
 def handle_delete_room():
-    data = request.get_json()
-    response_data, status_code = roomManagement.delete_room(data)
+    params = request.args.to_dict()
+    response_data, status_code = roomManagement.delete_room(params)
     return jsonify(response_data), status_code
 
 @room_bp.route('/adduser', methods=['PUT'])
