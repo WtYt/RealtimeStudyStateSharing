@@ -300,4 +300,4 @@ backend/keys/
 backend/keys/*
 
 # firebase config
-frontend/api/firebaseConfig.jsx
+frontend/src/api/firebaseConfig.jsx

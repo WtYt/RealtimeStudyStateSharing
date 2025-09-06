@@ -4,7 +4,7 @@ const firebaseConfig = {
   projectId: 'realtimestudy-login',
   storageBucket: 'realtimestudy-login.firebasestorage.app',
   messagingSenderId: '869567559647',
-  appId: '1:869567559647:web:502851aada42f60da4f66a',
-  measurementId: 'G-QZG9P28VPF',
+  appId: '1:869567559647:web:c0726f88c89b9458a4f66a',
+  measurementId: 'G-EXTNEW44B3',
 };
 export default firebaseConfig;
