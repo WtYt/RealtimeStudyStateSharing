@@ -11,7 +11,7 @@ import {
   signOut,
   updateProfile,
 } from 'firebase/auth';
-import firebaseConfig from './firebaseconfig';
+import firebaseConfig from './firebaseConfig_new';
 
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
