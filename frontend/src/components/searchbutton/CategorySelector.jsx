@@ -13,6 +13,7 @@ export default function CategorySelector({
   onChange,
   label = 'カテゴリー',
 }) {
+  const items = (categories || []).filter((c) => Number(c.key) !== 0);
   return (
     <FormControl fullWidth>
       <InputLabel id="category-select-label">{label}</InputLabel>
@@ -22,7 +23,7 @@ export default function CategorySelector({
         value={value}
         onChange={(e) => onChange?.(e.target.value)}
       >
-        {categories.map(({ key, label }) => (
+        {items.map(({ key, label }) => (
           <MenuItem key={key} value={key}>
             {label}
           </MenuItem>
