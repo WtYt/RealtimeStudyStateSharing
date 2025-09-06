@@ -12,6 +12,7 @@ import {
   updateProfile,
 } from 'firebase/auth';
 import firebaseConfig from './firebaseConfig_new';
+import { createUser } from './createUserOnDatabase';
 
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
@@ -42,6 +43,8 @@ export const SignUp = async (email, password, nickname) => {
     // ニックネームをプロフィールに保存
     await updateProfile(userCredential.user, { displayName: nickname });
     await sendEmailVerification(userCredential.user);
+    // DBにユーザー情報を作成
+    await createUser(email, nickname);
     return userCredential.user;
   } catch (error) {
     console.error('Error signing up:', error);
