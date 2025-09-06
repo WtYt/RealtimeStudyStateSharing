@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useDisplayProfile } from '../../api/displayProfile';
 import EachProfileEditPopup from '../../pages/EachProfileEditPopup';
+import { commentEdit } from '../../api/commentEdit';
 import FavoriteRoomPopup from '../../pages/FavoriteRoomPopup';
 import ConfirmPopup from '../ConfirmPopup';
 import { DeleteAccount } from '../../api/auth';
@@ -90,9 +91,20 @@ const Profile = () => {
       {popupContent === 'お気に入りルーム設定' && (
         <FavoriteRoomPopup onClose={closePopup} rooms={mockRooms} />
       )}
+      {popupContent === 'コメント編集' && (
+        <EachProfileEditPopup
+          title={popupContent}
+          placeholder={`${popupContent}を入力してください`}
+          onClose={closePopup}
+          onSave={async (value) => {
+            await commentEdit(value);
+          }}
+        />
+      )}
       {popupContent &&
         popupContent !== 'お気に入りルーム設定' &&
-        popupContent !== 'アカウント削除' && (
+        popupContent !== 'アカウント削除' &&
+        popupContent !== 'コメント編集' && (
           <EachProfileEditPopup
             title={popupContent}
             placeholder={`${popupContent}を入力してください`}
