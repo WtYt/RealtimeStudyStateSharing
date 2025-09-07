@@ -1,4 +1,3 @@
-import React from 'react';
 import RoomInfoButton from '../components/roomInfoButton';
 import ProfileButton from '../components/profileButton/ProfileButton';
 import SignOutButton from '../components/SignOutButton';
@@ -10,7 +9,7 @@ import Blackboard from '../components/seating/Blackboard';
 import RoomDeskGrid from '../components/seating/RoomDeskGrid';
 import { searchRoomsByCategory, searchRoomsByName } from '../api/RoomSearch';
 import categories from '../components/categories.json';
-import { InRoomMembers } from '../components/InRoomMembers';
+import React, { useState } from 'react';
 import './Screen.css';
 
 // デモ用のメンバー情報。実際はAPIから取得する。ルーム内人数は最大12を想定。
@@ -30,6 +29,9 @@ const demoMembers = [
 ];
 
 const Screen = ({ onSignOut }) => {
+  const [members, setMembers] = useState([]);
+  const handleRoomCreated = (member) => setMembers([member]);
+  console.log('members state:', members);
   return (
     <div className="screen-container">
       <header className="header">
@@ -43,10 +45,7 @@ const Screen = ({ onSignOut }) => {
                   room={{
                     name: 'TOEIC',
                     category: '英語',
-                    members: InRoomMembers.map((m) => ({
-                      id: m.id,
-                      name: m.name,
-                    })),
+                    members: members,
                   }}
                 />
               </div>
@@ -65,8 +64,7 @@ const Screen = ({ onSignOut }) => {
         />
       </header>
       <main className="main-content">
-        {/* <p>ここにルームのメインコンテンツが表示されます。</p> */}
-        <RoomDeskGrid members={InRoomMembers} />
+        <RoomDeskGrid members={members} />
       </main>
       {/* 左下：ルーム作成ボタン */}
       <div
@@ -77,7 +75,7 @@ const Screen = ({ onSignOut }) => {
           zIndex: 101,
         }}
       >
-        <CreateRoomButton />
+        <CreateRoomButton onRoomCreated={handleRoomCreated} />
       </div>
       {/* 右下：検索ボタン */}
       <div

@@ -57,7 +57,7 @@ const Profile = () => {
       <div className="status-section">
         <p>ステータス</p>
         <label>
-          <input type="radio" name="status" checked={status === 0} readOnly />{' '}
+          <input type="radio" name="status" checked={status === 2} readOnly />{' '}
           取り組み中
         </label>
         <label>
@@ -65,7 +65,7 @@ const Profile = () => {
           離席中
         </label>
         <label>
-          <input type="radio" name="status" checked={status === 2} readOnly />{' '}
+          <input type="radio" name="status" checked={status === 0} readOnly />{' '}
           オフライン
         </label>
       </div>
