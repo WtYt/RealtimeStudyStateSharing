@@ -1,4 +1,4 @@
-export const InRoomMembers = [
+export let InRoomMembers = [
   {
     id: 'u1',
     name: 'Alice',

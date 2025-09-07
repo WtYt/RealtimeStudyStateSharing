@@ -9,11 +9,12 @@ async function getUserProfile(uid) {
   return json.data || {};
 }
 
+export let member = null;
 export const createRoom = async (roomName, selectedCategory) => {
   try {
     const uid = getCurrentUserUid();
     const userProfile = await getUserProfile(uid);
-    const member = {
+    member = {
       id: uid,
       name: userProfile.name,
       icon: userProfile.profile_pic_path,
@@ -38,7 +39,7 @@ export const createRoom = async (roomName, selectedCategory) => {
       throw new Error('Failed to create room');
     }
     const data = await response.json();
-    return data;
+    return { data, member };
   } catch (error) {
     console.error('Error creating room:', error);
     throw error;

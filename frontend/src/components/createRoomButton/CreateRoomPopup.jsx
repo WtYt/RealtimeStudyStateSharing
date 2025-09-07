@@ -4,7 +4,7 @@ import './CreateRoomPopup.css';
 import categories from '../categories.json';
 import CategorySelector from '../searchbutton/CategorySelector';
 
-const CreateRoomPopup = ({ onClose }) => {
+const CreateRoomPopup = ({ onClose, onRoomCreated }) => {
   const [roomName, setRoomName] = useState('');
   // 単一選択用: Setではなくstringで管理
   const [selectedCategory, setSelectedCategory] = useState('');
@@ -29,7 +29,12 @@ const CreateRoomPopup = ({ onClose }) => {
   const handleCreate = async () => {
     if (roomName.trim() === '' || !selectedCategory) return;
     try {
-      await createRoom(roomName, selectedCategory);
+      const result = await createRoom(roomName, selectedCategory);
+      if (result && result.member) {
+        onRoomCreated && onRoomCreated(result.member);
+      }
+      console.log('API result:', result);
+      console.log('member:', result?.member);
     } catch (e) {
       alert('ルーム作成に失敗しました');
     }
