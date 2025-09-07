@@ -1,8 +1,25 @@
 import { getCurrentUserUid } from './auth';
+// ユーザー情報取得用
+async function getUserProfile(uid) {
+  const res = await fetch(
+    `http://127.0.0.1:5000/db/read?collection=users&doc_id=${uid}`
+  );
+  if (!res.ok) throw new Error('ユーザープロフィール取得失敗');
+  const json = await res.json();
+  return json.data || {};
+}
 
 export const createRoom = async (roomName, selectedCategory) => {
   try {
     const uid = getCurrentUserUid();
+    const userProfile = await getUserProfile(uid);
+    const member = {
+      id: uid,
+      name: userProfile.name,
+      icon: userProfile.profile_pic_path,
+      status: userProfile.status,
+      comment: userProfile.comment,
+    };
     const response = await fetch('http://127.0.0.1:5000/db/create', {
       method: 'POST',
       headers: {
@@ -12,7 +29,7 @@ export const createRoom = async (roomName, selectedCategory) => {
         collection: 'rooms',
         data: {
           name: roomName,
-          in_room_users: [uid.toString()],
+          in_room_users: [member],
           category: selectedCategory,
         },
       }),

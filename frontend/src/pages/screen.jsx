@@ -9,7 +9,8 @@ import SearchPopupProvider from './searchPopup';
 import Blackboard from '../components/seating/Blackboard';
 import RoomDeskGrid from '../components/seating/RoomDeskGrid';
 import { searchRoomsByCategory, searchRoomsByName } from '../api/RoomSearch';
-import categories from '../components/categories.json'
+import categories from '../components/categories.json';
+import { InRoomMembers } from '../components/InRoomMembers';
 import './Screen.css';
 
 // デモ用のメンバー情報。実際はAPIから取得する。ルーム内人数は最大12を想定。
@@ -42,7 +43,7 @@ const Screen = ({ onSignOut }) => {
                   room={{
                     name: 'TOEIC',
                     category: '英語',
-                    members: demoMembers.map((m) => ({
+                    members: InRoomMembers.map((m) => ({
                       id: m.id,
                       name: m.name,
                     })),
@@ -65,7 +66,7 @@ const Screen = ({ onSignOut }) => {
       </header>
       <main className="main-content">
         {/* <p>ここにルームのメインコンテンツが表示されます。</p> */}
-        <RoomDeskGrid members={demoMembers} />
+        <RoomDeskGrid members={InRoomMembers} />
       </main>
       {/* 左下：ルーム作成ボタン */}
       <div
