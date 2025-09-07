@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 import { useDisplayProfile } from '../../api/displayProfile';
 import EachProfileEditPopup from '../../pages/EachProfileEditPopup';
-import { commentEdit, iconEdit, nameEdit } from '../../api/ChangeUserInfo';
+import {
+  commentEdit,
+  iconEdit,
+  nameEdit,
+  statusEdit,
+} from '../../api/ChangeUserInfo';
 import FavoriteRoomPopup from '../../pages/FavoriteRoomPopup';
 import ConfirmPopup from '../ConfirmPopup';
 import { DeleteAccount } from '../../api/auth';
@@ -38,11 +43,18 @@ const Profile = () => {
 
   // useDisplayProfileからデータ取得
   const profileData = useDisplayProfile();
-
   // アイコン画像パス
   const iconPath = profileData?.data?.profile_pic_path;
-  // ステータス値
-  const status = profileData?.data?.status;
+  // ステータス値（ローカルstateで即時反映）
+  const [localStatus, setLocalStatus] = useState(
+    profileData?.data?.status ?? 0
+  );
+  // profileDataが更新されたらlocalStatusも更新
+  React.useEffect(() => {
+    if (profileData?.data?.status !== undefined) {
+      setLocalStatus(profileData.data.status);
+    }
+  }, [profileData?.data?.status]);
 
   return (
     <div>
@@ -57,15 +69,39 @@ const Profile = () => {
       <div className="status-section">
         <p>ステータス</p>
         <label>
-          <input type="radio" name="status" checked={status === 2} readOnly />{' '}
+          <input
+            type="radio"
+            name="status"
+            checked={localStatus === 2}
+            onChange={async () => {
+              setLocalStatus(2);
+              await statusEdit(2);
+            }}
+          />{' '}
           取り組み中
         </label>
         <label>
-          <input type="radio" name="status" checked={status === 1} readOnly />{' '}
+          <input
+            type="radio"
+            name="status"
+            checked={localStatus === 1}
+            onChange={async () => {
+              setLocalStatus(1);
+              await statusEdit(1);
+            }}
+          />{' '}
           離席中
         </label>
         <label>
-          <input type="radio" name="status" checked={status === 0} readOnly />{' '}
+          <input
+            type="radio"
+            name="status"
+            checked={localStatus === 0}
+            onChange={async () => {
+              setLocalStatus(0);
+              await statusEdit(0);
+            }}
+          />{' '}
           オフライン
         </label>
       </div>
