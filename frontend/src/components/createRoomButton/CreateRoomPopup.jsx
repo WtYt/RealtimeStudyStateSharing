@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import './CreateRoomPopup.css';
-import { categories } from './categories';
+import categories from '../categories.json'; // ← components/categories.json を直接利用
 import CategorySelector from '../searchbutton/CategorySelector';
 
 const CreateRoomPopup = ({ onClose }) => {
@@ -68,9 +68,9 @@ const CreateRoomPopup = ({ onClose }) => {
             <option value="" disabled>
               カテゴリを選択
             </option>
-            {categories.map(({ key, label }) => (
-              <option key={key} value={key}>
-                {label}
+            {categories.map((c) => (
+              <option key={c.key ?? c.id ?? c.value} value={String(c.key ?? c.id ?? c.value)}>
+                {c.label ?? c.name}
               </option>
             ))}
           </select>

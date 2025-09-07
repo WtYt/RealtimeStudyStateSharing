@@ -1,7 +1,10 @@
-// 仮のカテゴリ一覧（本来はAPI等で取得）
-export const categories = [
-  { key: 'study', label: '勉強' },
-  { key: 'work', label: '仕事' },
-  { key: 'hobby', label: '趣味' },
-  { key: 'other', label: 'その他' },
-];
+// categories.json を読み込み、CreateRoom 側で使いやすい形に正規化してエクスポートします
+import categoriesJson from '../../components/categories.json';
+
+const normalized = (Array.isArray(categoriesJson) ? categoriesJson : []).map(c => ({
+  key: String(c.key ?? c.id ?? c.value ?? ''),
+  label: c.label ?? c.name ?? String(c.key ?? c.id ?? c.value ?? '')
+}));
+
+export const categories = normalized;
+export default normalized;
