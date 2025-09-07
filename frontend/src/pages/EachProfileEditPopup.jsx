@@ -23,7 +23,7 @@ const EachProfileEditPopup = ({ title, placeholder, onClose, onSave }) => {
               marginBottom: 16,
             }}
           >
-            {['blue_icon.png', 'pink_icon.png'].map((iconFile) => (
+            {['blue_icon.png', 'pink_icon.png','purple_icon.png'].map((iconFile) => (
               <button
                 key={iconFile}
                 type="button"
