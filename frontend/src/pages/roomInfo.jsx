@@ -2,6 +2,7 @@ import React from 'react';
 import {
     Box, Stack, Typography, Divider, Chip, List, ListItem, ListItemText, Avatar, Button,
 } from '@mui/material';
+import categories from '../components/categories.json';
 
 /**
  * Props:
@@ -21,7 +22,9 @@ export default function RoomInfoContent({ room = {}, onClose }) {
         members = [],
     } = room;
 
-    const category = room.category || '';
+    const rawCategory = room.category || '';
+    const catObj = categories.find((c) => String(c.key) === String(rawCategory));
+    const category = catObj ? catObj.label : rawCategory;
 
     return (
         <Box sx={{ width: 480, bgcolor: 'background.paper', borderRadius: 2, boxShadow: 10, p: 2.5 }}>

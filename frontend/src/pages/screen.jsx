@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import RoomInfoButton from '../components/roomInfoButton';
 import ProfileButton from '../components/profileButton/ProfileButton';
 import SignOutButton from '../components/SignOutButton';
@@ -9,6 +9,8 @@ import SearchPopupProvider from './searchPopup';
 import Blackboard from '../components/seating/Blackboard';
 import RoomDeskGrid from '../components/seating/RoomDeskGrid';
 import { searchRoomsByCategory, searchRoomsByName } from '../api/RoomSearch';
+import { enterRoom, getCurrentRoomIdApi } from '../api/roomChange';
+import { fetchRoomById } from '../api/demoBackend';
 import categories from '../components/categories.json'
 import './Screen.css';
 
@@ -29,24 +31,75 @@ const demoMembers = [
 ];
 
 const Screen = ({ onSignOut }) => {
+  const [currentRoom, setCurrentRoom] = useState(null);
+
+  useEffect(() => {
+    let mounted = true;
+    (async () => {
+      try {
+        const curId = await getCurrentRoomIdApi();
+        if (!curId) return;
+        const room = await fetchRoomById(curId);
+        if (!mounted) return;
+        setCurrentRoom(room);
+      } catch (e) {
+        // ignore
+      }
+    })();
+    const onChange = async (e) => {
+      try {
+        const curId = await getCurrentRoomIdApi();
+        if (!curId) {
+          setCurrentRoom(null);
+          return;
+        }
+        const room = await fetchRoomById(curId);
+        setCurrentRoom(room);
+      } catch (err) {
+        // ignore
+      }
+    };
+    window.addEventListener('demoCurrentRoomChanged', onChange);
+    return () => { mounted = false; };
+  }, []);
+
+  const handleRoomSelect = async (room) => {
+    try {
+      // read current profile from localStorage
+      let user = { id: 'me_demo', name: 'Me', status: 2, comment: 'デモ' };
+      try {
+        const p = JSON.parse(localStorage.getItem('demo_profile'));
+        if (p && p.id) user = p;
+      } catch (e) { }
+
+      await enterRoom(room.id || room.doc_id || room._id, { user });
+      const curId = await getCurrentRoomIdApi();
+      const r = await fetchRoomById(curId);
+      setCurrentRoom(r);
+    } catch (e) {
+      console.error('enter room failed', e);
+    }
+  };
+
   return (
     <div className="screen-container">
       <header className="header">
         <Blackboard
-          title="Web自習室（仮)"
+          title="Sharedy Hub"
           subtitle="みんなで一緒に勉強しよう！"
           left={
             <div className="bb-left">
               <div className="bb-action" aria-label="ルーム情報" tabIndex={0}>
                 <RoomInfoButton
-                  room={{
-                    name: 'TOEIC',
-                    category: '英語',
-                    members: demoMembers.map((m) => ({
-                      id: m.id,
-                      name: m.name,
-                    })),
-                  }}
+                  room={
+                    currentRoom
+                      ? {
+                        name: currentRoom.name,
+                        category: currentRoom.category,
+                        members: (currentRoom.members || []).map((m) => ({ id: m.id, name: m.name })),
+                      }
+                      : null
+                  }
                 />
               </div>
             </div>
@@ -65,7 +118,7 @@ const Screen = ({ onSignOut }) => {
       </header>
       <main className="main-content">
         {/* <p>ここにルームのメインコンテンツが表示されます。</p> */}
-        <RoomDeskGrid members={demoMembers} />
+        <RoomDeskGrid members={(currentRoom && currentRoom.members) ? currentRoom.members : demoMembers} />
       </main>
       {/* 左下：ルーム作成ボタン */}
       <div
@@ -91,6 +144,7 @@ const Screen = ({ onSignOut }) => {
           categories={categories}
           onSearchByName={searchRoomsByName}
           onSearchByCategory={searchRoomsByCategory}
+          onRoomClick={handleRoomSelect}
         >
           {/* API連携ができたら、onSearchByName/onSearchByCategory/onRoomClickを渡す
         categoriesはハードコーディング  */}

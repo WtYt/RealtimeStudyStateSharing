@@ -2,8 +2,16 @@ import React, { useState } from 'react';
 import { FaStar } from 'react-icons/fa';
 import './FavoriteRoomPopup.css';
 
-const FavoriteRoomPopup = ({ onClose, rooms }) => {
-  const [roomList, setRoomList] = useState(rooms);
+const FavoriteRoomPopup = ({ onClose, rooms = [], favorites = [], onSave }) => {
+  const [roomList, setRoomList] = useState(() => {
+    // merge favorites into rooms
+    try {
+      const fav = Array.isArray(favorites) ? favorites : [];
+      return rooms.map((r) => ({ ...r, isFavorite: fav.includes(r.id), isVisible: true }));
+    } catch (e) {
+      return rooms;
+    }
+  });
 
   const toggleFavorite = (id) => {
     setRoomList(
@@ -22,7 +30,8 @@ const FavoriteRoomPopup = ({ onClose, rooms }) => {
   };
 
   const handleSave = () => {
-    console.log('保存されたデータ:', roomList);
+    const nextFav = roomList.filter((r) => r.isFavorite).map((r) => r.id);
+    if (typeof onSave === 'function') onSave(nextFav);
     onClose();
   };
 

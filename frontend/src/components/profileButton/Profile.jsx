@@ -1,14 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import EachProfileEditPopup from '../../pages/EachProfileEditPopup';
 import FavoriteRoomPopup from '../../pages/FavoriteRoomPopup';
 import ConfirmPopup from '../ConfirmPopup';
 import { DeleteAccount } from '../../api/auth';
+import { listRooms } from '../../api/RoomSearch';
 import './Profile.css';
 import blueIcon from '../../userIcon/blue_icon.png';
 
 const Profile = () => {
   const [isUserSettingOpen, setIsUserSettingOpen] = useState(false);
   const [popupContent, setPopupContent] = useState(null);
+  const [profile, setProfile] = useState({ id: 'me_demo', name: 'Me', status: 2, comment: 'デモ' });
+  const [rooms, setRooms] = useState([]);
+  const [favorites, setFavorites] = useState([]);
 
   const toggleUserSetting = () => setIsUserSettingOpen(!isUserSettingOpen);
 
@@ -35,6 +39,34 @@ const Profile = () => {
     closePopup();
   };
 
+  useEffect(() => {
+    // load persisted profile and favorites
+    try {
+      const p = JSON.parse(localStorage.getItem('demo_profile'));
+      if (p) setProfile((prev) => ({ ...prev, ...p }));
+    } catch (e) { }
+    try {
+      const fav = JSON.parse(localStorage.getItem('demo_favorites')) || [];
+      setFavorites(Array.isArray(fav) ? fav : []);
+    } catch (e) { setFavorites([]); }
+
+    (async () => {
+      try {
+        const all = await listRooms();
+        setRooms(all);
+      } catch (e) {
+        setRooms([]);
+      }
+    })();
+  }, []);
+
+  const saveProfile = (next) => {
+    const np = { ...profile, ...next };
+    setProfile(np);
+    localStorage.setItem('demo_profile', JSON.stringify(np));
+  };
+
+
   return (
     <div>
       <img
@@ -42,19 +74,19 @@ const Profile = () => {
         alt="ユーザーアイコン"
         style={{ width: 64, height: 64, borderRadius: '50%', marginBottom: 8 }}
       />
-      <h2 className="profile-name">名前：山田太郎</h2>
-      <p>ID：12345</p>
+      <h2 className="profile-name">名前：{profile.name}</h2>
+      <p>ID：{profile.id}</p>
 
       <div className="status-section">
         <p>ステータス</p>
         <label>
-          <input type="radio" name="status" /> 取り組み中
+          <input type="radio" name="status" checked={profile.status === 2} onChange={() => saveProfile({ status: 2 })} /> 取り組み中
         </label>
         <label>
-          <input type="radio" name="status" /> 離席中
+          <input type="radio" name="status" checked={profile.status === 1} onChange={() => saveProfile({ status: 1 })} /> 離席中
         </label>
         <label>
-          <input type="radio" name="status" /> オフライン
+          <input type="radio" name="status" checked={profile.status === 0} onChange={() => saveProfile({ status: 0 })} /> オフライン
         </label>
       </div>
 
@@ -90,7 +122,7 @@ const Profile = () => {
       </button>
 
       {popupContent === 'お気に入りルーム設定' && (
-        <FavoriteRoomPopup onClose={closePopup} rooms={mockRooms} />
+        <FavoriteRoomPopup onClose={closePopup} rooms={rooms} favorites={favorites} onSave={(nextFav) => { setFavorites(nextFav); localStorage.setItem('demo_favorites', JSON.stringify(nextFav)); closePopup(); }} />
       )}
       {popupContent &&
         popupContent !== 'お気に入りルーム設定' &&
@@ -99,7 +131,13 @@ const Profile = () => {
             title={popupContent}
             placeholder={`${popupContent}を入力してください`}
             onClose={closePopup}
-            onSave={(value) => console.log(`${popupContent}: ${value}`)}
+            onSave={(value) => {
+              if (popupContent === 'ニックネーム変更' || popupContent === 'コメントの編集') {
+                if (popupContent === 'ニックネーム変更') saveProfile({ name: value });
+                if (popupContent === 'コメントの編集') saveProfile({ comment: value });
+              }
+              console.log(`${popupContent}: ${value}`);
+            }}
           />
         )}
       {/* アカウント削除確認 */}

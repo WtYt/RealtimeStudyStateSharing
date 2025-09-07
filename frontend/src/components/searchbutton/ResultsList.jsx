@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box, Stack, Typography, Chip, List, ListItem, ListItemText, CircularProgress, Link } from '@mui/material';
+import categories from '../../components/categories.json';
 
 /**
  * results: Array<{ id: string, name: string, category?: string, memberCount?: number }>
@@ -28,7 +29,9 @@ export default function ResultsList({ loading, error, results, onRoomClick }) {
             {!loading && !error && results?.length > 0 && (
                 <List dense sx={{ maxHeight: 260, overflow: 'auto', border: '1px solid', borderColor: 'divider', borderRadius: 1 }}>
                     {results.map((r) => {
-                        const category = r.category || '';
+                        const rawCategory = r.category || '';
+                        const categoryObj = categories.find((c) => String(c.key) === String(rawCategory));
+                        const category = categoryObj ? categoryObj.label : rawCategory;
                         const members = r.memberCount ?? 0;
 
                         return (

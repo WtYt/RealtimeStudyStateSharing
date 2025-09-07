@@ -12,13 +12,15 @@ import RoomInfoContent from '../pages/roomInfo'; // モーダル中身を分離�
  *     members?: Array<{ id?: string, name?: string }>
  *   }
  */
-const RoomInfoButton = ({ room = {} }) => {
+const RoomInfoButton = ({ room = null }) => {
   const [open, setOpen] = useState(false);
 
-  const { name = '未設定', members = [] } = room;
+  // room が null の場合もある（親がまだ取得中など）ため安全に扱う
+  const safeRoom = room || {};
+  const { name = '未設定', members = [] } = safeRoom;
 
   // 単一カテゴリ（参照のみ）
-  const category = room.category || '';
+  const category = safeRoom.category || '';
 
   // react-modal のスタイル（既存に合わせる）
   const modalStyles = {
